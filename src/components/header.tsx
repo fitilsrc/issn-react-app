@@ -1,4 +1,3 @@
-import React from 'react';
 import { ModeToggle } from '@/components/mode-toggle';
 import { Logo } from './logo';
 import { UserMenu } from './user-menu';

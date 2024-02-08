@@ -1,0 +1,19 @@
+version: '3.9'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: issn-react-app
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/app
+      - /app/node_modules
+    restart: unless-stopped
+    networks:
+      - issn-network
+
+networks:
+  issn-network:
+    external: true

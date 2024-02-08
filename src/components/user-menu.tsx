@@ -1,4 +1,3 @@
-import React from 'react';
 import { useAuth } from '@/lib/hooks/useAuth';
 import { Avatar, AvatarFallback } from './ui/avatar';
 import {

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Loader as LucideLoader } from 'lucide-react';
 
 export const Loader = () => {
