@@ -32,7 +32,7 @@ const Persons = () => {
   if (loading) return null;
   if (error) return `Error! ${error}`;
 
-  console.log('[log] persons', data)
+  console.log('[log] persons', data);
 
   return (
     <section className="flex py-6 gap-6">
@@ -41,4 +41,4 @@ const Persons = () => {
   )
 }
 
-export default Persons
+export default Persons;

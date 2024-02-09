@@ -1,8 +1,8 @@
-import { UserType } from "./UserType";
-import { TmdbActionType } from "./enums";
+import { UserType } from "../UserType";
+import { IssnActionType } from "./IssnActionType";
 
 export type UpdateLoggedInUserAction = {
-  type: TmdbActionType.UPDATE_USER;
+  type: IssnActionType.UPDATE_USER;
   payload: {
     isLoggedIn: boolean;
     user: UserType;

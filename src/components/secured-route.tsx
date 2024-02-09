@@ -12,10 +12,10 @@ export const SecuredRoute = ({ allovedRoles }: SecuredRouteProps) => {
   const location = useLocation();
 
   return (
-    state.isLoggedIn ? (
-      <Outlet />
-    ) : (
+    !state.isLoggedIn ? (
       <Navigate to="/login" state={{ from: location }} replace />
+    ) : (
+      <Outlet />
     )
   )
 };
