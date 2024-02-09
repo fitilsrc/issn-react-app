@@ -1,10 +1,13 @@
 import { Main } from './routes/Main';
 import { ThemeProvider } from './components/theme-provider';
+import { IssnProvider } from './lib/hooks/useIssnContext';
 
 function App() {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <Main />
+      <IssnProvider>
+        <Main />
+      </IssnProvider>
     </ThemeProvider>
   )
 }
