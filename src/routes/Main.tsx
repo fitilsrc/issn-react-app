@@ -1,3 +1,5 @@
+import { SecuredRoute } from '@/components/secured-route';
+import { UserRoleType } from '@/lib/types/UserRolesType';
 import { Layout } from '@/pages/layout';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
@@ -11,9 +13,11 @@ export const Main = () => {
     <React.Suspense fallback={<Layout isLoading={true} />}>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route path="/" element={<Dashboard />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/persons" element={<Persons />} />
+          <Route element={<SecuredRoute allovedRoles={[UserRoleType.ISSN_ADMIN]}/>}>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/persons" element={<Persons />} />
+          </Route>
         </Route>
       </Routes>
     </React.Suspense>

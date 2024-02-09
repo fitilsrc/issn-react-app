@@ -24,7 +24,7 @@ export const Header = ({
           {!user ? <Logo /> : null}
         </div>
         <div className="flex gap-x-6 items-center">
-          <UserMenu abbreviation={getAbbreviation} />
+          {!user ? null : <UserMenu abbreviation={getAbbreviation} />}
           <ModeToggle />
         </div>
       </div>
