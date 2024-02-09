@@ -1,11 +1,7 @@
 import { Header } from "@/components/header";
 import { Outlet } from "react-router-dom";
-import { Toaster } from "@/components/ui/toaster";
-import { SideNavBar } from "@/components/side-navigation-bar";
-import { Separator } from "@/components/ui/separator";
-import { UserType } from "@/lib/types/UserType";
-import { Loader } from "@/components/ui/loader";
 import { useIssnContext } from "@/lib/hooks/useIssnContext";
+import { Loader, Separator, SideNavBar, Toaster } from "@/components";
 
 export const Layout = ({ isLoading }: { isLoading?: boolean }) => {
   const { state } = useIssnContext();

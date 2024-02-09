@@ -1,6 +1,7 @@
 import { Dispatch, PropsWithChildren, createContext, useContext, useReducer } from "react";
 import { UserType } from "../types/UserType";
 import { IssnActionType, RemoveLoggedInUserAction, UpdateLoggedInUserAction } from "../types/actions";
+import { useAuth } from "./useAuth";
 
 export type IssnStateType = {
   isLoggedIn?: boolean;
@@ -46,16 +47,14 @@ export function useIssnContext() {
 }
 
 export function IssnProvider({ children }: PropsWithChildren) {
+  const { validateToken, userInfo } = useAuth();
+
+  const isLoggedIn = validateToken();
+  const user = userInfo();
+
   const initial = {
-    isLoggedIn: true,
-    user: {
-      name: 'test',
-      given_name: 'test',
-      family_name: 'test',
-      phone: '123456',
-      email: 'test@local.com',
-      roles: [],
-    },
+    isLoggedIn,
+    user
   }
 
   const [state, dispatch] = useReducer(issnReducer, initial);
