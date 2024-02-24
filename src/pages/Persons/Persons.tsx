@@ -1,3 +1,4 @@
+import { PersonsTable } from '@/components/persons/persons-table';
 import { gql, useQuery } from '@apollo/client';
 
 const GET_PERSONS = gql`
@@ -32,11 +33,9 @@ const Persons = () => {
   if (loading) return null;
   if (error) return `Error! ${error}`;
 
-  console.log('[log] persons', data);
-
   return (
     <section className="flex py-6 gap-6">
-      Test
+      <PersonsTable persons={data.getPersons} />
     </section>
   )
 }
