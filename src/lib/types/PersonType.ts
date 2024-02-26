@@ -15,7 +15,6 @@ export type PseudonymType = {
   createdBy?: string;
   updatedBy?: string;
   title?: string;
-  personId: number;
 }
 
 export type DocumentType = {
@@ -25,9 +24,8 @@ export type DocumentType = {
   createdBy?: string;
   updatedBy?: string;
   title?: string;
-  series: string;
-  issued?: Date;
-  aliasId: number;
+  series?: string;
+  issued?: string;
 }
 
 export type AliasType = {
@@ -38,12 +36,12 @@ export type AliasType = {
   updatedBy?: string;
   firstName?: string;
   secondName?: string;
-  surname?: string;
+  patronymic?: string;
   birthday?: Date;
   deathday?: Date;
   birthPlace?: string;
   citizenship?: string;
   gender?: string;
-  personId: number;
+  description?: string;
   documents?: DocumentType[];
 }

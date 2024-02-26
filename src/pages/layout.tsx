@@ -7,15 +7,15 @@ export const Layout = ({ isLoading }: { isLoading?: boolean }) => {
   const { state } = useIssnContext();
 
   return (
-    <div className="flex min-h-screen w-full">
+    <div className="flex justify-stretch w-full">
       {
         !state.isLoggedIn ? null : <SideNavBar />
       }
-      <Separator orientation="vertical" className="h-screen"/>
-      <div className="w-full">
+      <div className="w-full relative">
+        <Separator orientation="vertical" className="absolute h-full left-0"/>
         <Header user={state.user}/>
         <Separator />
-        <main className="w-full p-8 h-[calc(100vh-4rem)]">
+        <main className="w-full p-8">
           {!isLoading ? <Outlet /> : <Loader />}
           <Toaster />
         </main>

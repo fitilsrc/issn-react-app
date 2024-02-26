@@ -36,10 +36,8 @@ export function DataTable<TData, TValue>({
     },
   })
 
-  console.log('[data]', data)
-
   return (
-    <div className="rounded-md border w-full">
+    <div className="w-full">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
