@@ -27,7 +27,7 @@ export const ActionCell = ({ id, isViewMode }: ActionCellProps) => {
           <DropdownMenuItem>Edit</DropdownMenuItem>
         ) : (
           <DropdownMenuItem>
-            <Link to={`/person/${id}`}>View</Link>
+            <Link to={`/person/${id}`} className="w-full">View</Link>
           </DropdownMenuItem>
         )}
         <DropdownMenuItem>Delete</DropdownMenuItem>
