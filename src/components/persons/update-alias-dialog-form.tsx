@@ -14,18 +14,18 @@ import { Calendar } from "../ui/calendar";
 import { useState } from "react";
 import { usePerson } from "@/lib/hooks/usePerson";
 
-interface PersonFormProps {
+interface UpdateAliasFormProps {
   alias?: AliasType;
   onPersonUpdate?: () => void;
 }
 
-export const AliasDialogForm = ({
+export const UpdateAliasDialogForm = ({
   alias,
   onPersonUpdate
-}: PersonFormProps) => {
+}: UpdateAliasFormProps) => {
   const [isDeathPopover, setDeathPopover] = useState(false);
   const [isBirthPopover, setBirthPopover] = useState(false);
-  const { updatePerson } = usePerson();
+  const { updateAlias } = usePerson();
 
   const formSchema = z.object({
     firstName: z.string().min(2).max(50).optional(),
@@ -53,7 +53,7 @@ export const AliasDialogForm = ({
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    alias && await updatePerson({
+    alias && await updateAlias({
       ...values,
       id: alias.id,
       personId: alias.personId

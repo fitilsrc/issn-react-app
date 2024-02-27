@@ -2,18 +2,37 @@ import { useToast } from "@/components/ui/use-toast";
 import { useIssnContext } from "./useIssnContext";
 import { useMutation } from "@apollo/client";
 import { AliasType } from "../types/PersonType";
-import { CREATE_PERSON_MUTATION, UPDATE_ALIAS_MUTATION } from "../graphql";
+import { ADD_PSEUDONYM_MUTATION, CREATE_ALIAS_MUTATION, CREATE_PERSON_MUTATION, UPDATE_ALIAS_MUTATION } from "../graphql";
 import { useNavigate } from "react-router";
 
 export function usePerson() {
   const { toast } = useToast();
   const { state } = useIssnContext();
   const navigate = useNavigate();
-  const [update] = useMutation(UPDATE_ALIAS_MUTATION);
-  const [create] = useMutation(CREATE_PERSON_MUTATION);
+  const [updateAliasMutation] = useMutation(UPDATE_ALIAS_MUTATION);
+  const [createAliasMutation] = useMutation(CREATE_ALIAS_MUTATION);
+  const [createPersonMutation] = useMutation(CREATE_PERSON_MUTATION);
+  const [addPseudonymMutation] = useMutation(ADD_PSEUDONYM_MUTATION);
+
+  const addPseudonym = (personId: number, title: string) => {
+    addPseudonymMutation({
+      variables: {
+        createdBy: state.user?.name,
+        title,
+        personId
+      },
+      onCompleted: () => {
+        toast({
+          variant: "default",
+          title: "Person Pseudonym successfully created",
+          description: "",
+        });
+      }
+    })
+  }
 
   const addPerson = () => {
-    create({
+    createPersonMutation({
       variables: {
         createdBy: state.user?.name,
       },
@@ -28,14 +47,30 @@ export function usePerson() {
     })
   }
 
-  const updatePerson = (alias: AliasType) => {
-    update({
+  const createAlias = (alias: Partial<AliasType>) => {
+    createAliasMutation({
+      variables: {
+        ...alias,
+        createdBy: state.user?.name,
+      },
+      onCompleted: () => {
+        toast({
+          variant: "default",
+          title: "Person alias successfully created",
+          description: "",
+        });
+      }
+    })
+  }
+
+  const updateAlias = (alias: AliasType) => {
+    updateAliasMutation({
       variables: {
         ...alias,
         updatedBy: state.user?.name,
         documents: undefined
       },
-      onCompleted: (data) => {
+      onCompleted: () => {
         toast({
           variant: "default",
           title: "Person alias successfully updated",
@@ -45,5 +80,5 @@ export function usePerson() {
     })
   }
 
-  return { updatePerson, addPerson }
+  return { updateAlias, createAlias, addPerson, addPseudonym }
 }
