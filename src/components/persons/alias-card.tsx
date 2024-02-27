@@ -19,8 +19,8 @@ interface AliasCardProps {
 
 export const AliasCard = ({ alias, onPersonUpdate }: AliasCardProps) => {
   return (
-    <Card className="w-full h-fit">
-      <div className="flex flex-col justify-start items-start lg:flex-row">
+    <Card className="w-full h-full">
+      <div className="flex flex-col justify-start h-full lg:flex-row">
         <div className="flex justify-center items-center w-full p-6 lg:w-1/3 lg:pr-0">
           <AspectRatio
             ratio={3 / 4}
@@ -30,7 +30,7 @@ export const AliasCard = ({ alias, onPersonUpdate }: AliasCardProps) => {
           </AspectRatio>
         </div>
 
-        <div className="w-full lg:w-2/3">
+        <div className="w-full lg:w-2/3 h-full">
           <CardHeader>
             <CardTitle>{`${alias.firstName} ${alias.surname ?? ""} ${
               alias.secondName

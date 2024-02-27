@@ -1,5 +1,4 @@
 import { PersonType } from "@/lib/types/PersonType"
-import { PlusSquareIcon, X } from "lucide-react";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { AliasCard } from "./alias-card";
@@ -7,6 +6,7 @@ import { DocumentsTable } from "./documents-table";
 import { Separator } from "..";
 import { PseudonymDialogForm } from "./pseudonym-dialog-form";
 import { CreateAliasDialogForm } from "./create-alias-dialog-form";
+import { X } from "lucide-react";
 
 interface PersonViewProps {
   person: PersonType;
@@ -66,7 +66,7 @@ export const PersonView = ({ person, onPersonUpdate }: PersonViewProps) => {
               <AliasCard alias={alias} onPersonUpdate={onPersonUpdate}/>
             </div>
             <div className="w-1/2">
-              <DocumentsTable documents={alias.documents} />
+              <DocumentsTable documents={alias.documents} aliasId={alias.id} onPersonUpdate={onPersonUpdate} />
             </div>
           </div>
         ))}

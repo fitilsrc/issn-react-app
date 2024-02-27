@@ -4,4 +4,6 @@ export * from './get-person-by-id-query';
 export * from './create-person-mutation';
 export * from './update-alias-mutation';
 export * from './add-pseudonym-mutation';
-export * from './create-alias-mutation copy';
+export * from './create-alias-mutation';
+export * from './create-document-mutation';
+export * from './update-document-mutation';

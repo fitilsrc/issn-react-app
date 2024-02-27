@@ -25,7 +25,8 @@ export type DocumentType = {
   updatedBy?: string;
   title?: string;
   series?: string;
-  issued?: string;
+  issued?: Date;
+  aliasId: number;
 }
 
 export type AliasType = {

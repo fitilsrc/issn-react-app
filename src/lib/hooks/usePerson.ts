@@ -1,8 +1,8 @@
 import { useToast } from "@/components/ui/use-toast";
 import { useIssnContext } from "./useIssnContext";
 import { useMutation } from "@apollo/client";
-import { AliasType } from "../types/PersonType";
-import { ADD_PSEUDONYM_MUTATION, CREATE_ALIAS_MUTATION, CREATE_PERSON_MUTATION, UPDATE_ALIAS_MUTATION } from "../graphql";
+import { AliasType, DocumentType } from "../types/PersonType";
+import { ADD_PSEUDONYM_MUTATION, CREATE_ALIAS_MUTATION, CREATE_DOCUMENT_MUTATION, CREATE_PERSON_MUTATION, UPDATE_ALIAS_MUTATION, UPDATE_DOCUMENT_MUTATION } from "../graphql";
 import { useNavigate } from "react-router";
 
 export function usePerson() {
@@ -13,6 +13,8 @@ export function usePerson() {
   const [createAliasMutation] = useMutation(CREATE_ALIAS_MUTATION);
   const [createPersonMutation] = useMutation(CREATE_PERSON_MUTATION);
   const [addPseudonymMutation] = useMutation(ADD_PSEUDONYM_MUTATION);
+  const [updateDocumentMutation] = useMutation(UPDATE_DOCUMENT_MUTATION);
+  const [createDocumentMutation] = useMutation(CREATE_DOCUMENT_MUTATION);
 
   const addPseudonym = (personId: number, title: string) => {
     addPseudonymMutation({
@@ -80,5 +82,37 @@ export function usePerson() {
     })
   }
 
-  return { updateAlias, createAlias, addPerson, addPseudonym }
+  const updateDocument = (document: DocumentType) => {
+    updateDocumentMutation({
+      variables: {
+        ...document,
+        updatedBy: state.user?.name,
+      },
+      onCompleted: () => {
+        toast({
+          variant: "default",
+          title: "Document related to alias successfully updated",
+          description: "",
+        });
+      }
+    })
+  }
+
+  const createDocument = (document: DocumentType) => {
+    createDocumentMutation({
+      variables: {
+        ...document,
+        createdBy: state.user?.name,
+      },
+      onCompleted: () => {
+        toast({
+          variant: "default",
+          title: "Document related to alias successfully created",
+          description: "",
+        });
+      }
+    })
+  }
+
+  return { updateAlias, createAlias, addPerson, addPseudonym, updateDocument, createDocument }
 }
