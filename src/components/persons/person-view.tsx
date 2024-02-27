@@ -8,9 +8,10 @@ import { Separator } from "..";
 
 interface PersonViewProps {
   person: PersonType;
+  onPersonUpdate?: () => void;
 }
 
-export const PersonView = ({ person }: PersonViewProps) => {
+export const PersonView = ({ person, onPersonUpdate }: PersonViewProps) => {
 
   const { pseudonyms, aliases } = person;
 
@@ -31,7 +32,7 @@ export const PersonView = ({ person }: PersonViewProps) => {
           Add nick
         </Button>
       </div>
-      <div className="w-fit">
+      <div className="w-fit flex gap-2">
         {pseudonyms &&
           pseudonyms.map((pseudonym) => (
             <Badge
@@ -66,7 +67,7 @@ export const PersonView = ({ person }: PersonViewProps) => {
             key={`alias-${alias.id}`}
           >
             <div className="w-1/2">
-              <AliasCard alias={alias} />
+              <AliasCard alias={alias} onPersonUpdate={onPersonUpdate}/>
             </div>
             <div className="w-1/2">
               <DocumentsTable documents={alias.documents} />

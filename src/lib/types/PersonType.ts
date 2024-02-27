@@ -36,12 +36,13 @@ export type AliasType = {
   updatedBy?: string;
   firstName?: string;
   secondName?: string;
-  patronymic?: string;
+  surname?: string;
   birthday?: Date;
   deathday?: Date;
   birthPlace?: string;
   citizenship?: string;
   gender?: string;
   description?: string;
+  personId: number;
   documents?: DocumentType[];
 }
