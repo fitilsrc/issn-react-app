@@ -6,6 +6,7 @@ import { AliasCard } from "./alias-card";
 import { DocumentsTable } from "./documents-table";
 import { Separator } from "..";
 import { PseudonymDialogForm } from "./pseudonym-dialog-form";
+import { CreateAliasDialogForm } from "./create-alias-dialog-form";
 
 interface PersonViewProps {
   person: PersonType;
@@ -28,7 +29,7 @@ export const PersonView = ({ person, onPersonUpdate }: PersonViewProps) => {
       <Separator className="mt-8"/>
       <div className="flex justify-between items-center">
         <h2>Pseudonyms </h2>
-        <PseudonymDialogForm />
+        <PseudonymDialogForm onPersonUpdate={onPersonUpdate} />
       </div>
       <div className="w-fit flex gap-2">
         {pseudonyms &&
@@ -52,11 +53,8 @@ export const PersonView = ({ person, onPersonUpdate }: PersonViewProps) => {
       </div>
       <Separator className="mt-8"/>
       <div className="flex justify-between items-center">
-      <h2>Also known as</h2>
-        <Button variant="secondary">
-          <PlusSquareIcon className="h-5 w-5 mr-2" />
-          Add alias
-        </Button>
+        <h2>Also known as</h2>
+        <CreateAliasDialogForm onPersonUpdate={onPersonUpdate} />
       </div>
       {aliases &&
         aliases.map((alias) => (

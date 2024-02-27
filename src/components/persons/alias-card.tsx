@@ -8,9 +8,9 @@ import {
   CardTitle,
 } from "../ui/card";
 import { Button } from "../ui/button";
-import { Image, EditIcon, Trash2 } from "lucide-react";
+import { Image, Trash2 } from "lucide-react";
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
-import { AliasDialogForm } from "./alias-dialog-form";
+import { UpdateAliasDialogForm } from "./update-alias-dialog-form";
 
 interface AliasCardProps {
   alias: AliasType;
@@ -84,7 +84,7 @@ export const AliasCard = ({ alias, onPersonUpdate }: AliasCardProps) => {
             </div>
           </CardContent>
           <CardFooter className="flex gap-2 items-center justify-end pt-6">
-            <AliasDialogForm alias={alias} onPersonUpdate={onPersonUpdate}/>
+            <UpdateAliasDialogForm alias={alias} onPersonUpdate={onPersonUpdate}/>
             <Button variant="destructive">
               <Trash2 className="h-5 w-5 mr-2" /> Delete
             </Button>
