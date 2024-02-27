@@ -11,7 +11,7 @@ export const Layout = ({ isLoading }: { isLoading?: boolean }) => {
       {
         !state.isLoggedIn ? null : <SideNavBar />
       }
-      <div className="w-full relative">
+      <div className="w-full relative min-h-[100vh]">
         <Separator orientation="vertical" className="absolute h-full left-0"/>
         <Header user={state.user}/>
         <Separator />

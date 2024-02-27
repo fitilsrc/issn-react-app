@@ -1,16 +1,34 @@
 import { useToast } from "@/components/ui/use-toast";
 import { useIssnContext } from "./useIssnContext";
 import { useMutation } from "@apollo/client";
-import { UPDATE_PERSON_MUTATION } from "../graphql/update-person-mutation";
 import { AliasType } from "../types/PersonType";
+import { CREATE_PERSON_MUTATION, UPDATE_ALIAS_MUTATION } from "../graphql";
+import { useNavigate } from "react-router";
 
 export function usePerson() {
-  const { toast } = useToast()
-  const { state } = useIssnContext()
-  const [update] = useMutation(UPDATE_PERSON_MUTATION);
+  const { toast } = useToast();
+  const { state } = useIssnContext();
+  const navigate = useNavigate();
+  const [update] = useMutation(UPDATE_ALIAS_MUTATION);
+  const [create] = useMutation(CREATE_PERSON_MUTATION);
+
+  const addPerson = () => {
+    create({
+      variables: {
+        createdBy: state.user?.name,
+      },
+      onCompleted: (data) => {
+        toast({
+          variant: "default",
+          title: "Person successfully created",
+          description: "",
+        });
+        navigate(`/person/${data.createPerson.id}`);
+      }
+    })
+  }
 
   const updatePerson = (alias: AliasType) => {
-    console.log('[updated] alias', alias)
     update({
       variables: {
         ...alias,
@@ -21,11 +39,11 @@ export function usePerson() {
         toast({
           variant: "default",
           title: "Person alias successfully updated",
-          description: "All session data has been deleted from the local system",
+          description: "",
         });
       }
     })
   }
 
-  return { updatePerson }
+  return { updatePerson, addPerson }
 }

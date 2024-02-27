@@ -1,10 +1,11 @@
-import { AliasType, PersonType, PseudonymType } from '@/lib/types/PersonType';
+import { AliasType, PersonType, PseudonymType } from "@/lib/types/PersonType";
 import { ColumnDef } from "@tanstack/react-table";
-import { ActionCell, AliasesCell, PseudonymsCell } from './cells';
-import { DataTable } from './data-table';
+import { ActionCell, AliasesCell, PseudonymsCell } from "./cells";
+import { DataTable } from "./data-table";
 
 interface PersonsTableProps {
   persons: PersonType[];
+  updatePersons?: () => void;
 }
 
 const columns: ColumnDef<PersonType>[] = [
@@ -13,8 +14,8 @@ const columns: ColumnDef<PersonType>[] = [
     header: "Person Id",
     cell: ({ row }) => {
       const id: number = row.getValue("id");
-      return <div>{id}</div>
-    }
+      return <div>{id}</div>;
+    },
   },
   {
     accessorKey: "pseudonyms",
@@ -23,7 +24,7 @@ const columns: ColumnDef<PersonType>[] = [
       const pseudonyms: Array<PseudonymType> = row.getValue("pseudonyms");
 
       return <PseudonymsCell pseudonyms={pseudonyms} />;
-    }
+    },
   },
   {
     accessorKey: "aliases",
@@ -33,7 +34,7 @@ const columns: ColumnDef<PersonType>[] = [
       const aliases: Array<AliasType> = row.getValue("aliases");
 
       return <AliasesCell aliases={aliases} />;
-    }
+    },
   },
   {
     id: "actions",
@@ -41,16 +42,20 @@ const columns: ColumnDef<PersonType>[] = [
     cell: ({ row }) => {
       const person = row.original;
 
-      return <ActionCell id={person.id} isViewMode={true} />
-    }
-  }
-]
+      return <ActionCell id={person.id} isViewMode={true} />;
+    },
+  },
+];
 
-export const PersonsTable = ({ persons }: PersonsTableProps) => {
-
+export const PersonsTable = ({ persons, updatePersons }: PersonsTableProps) => {
   return (
     <>
-      <DataTable columns={columns} data={persons}/>
+      <DataTable
+        columns={columns}
+        data={persons}
+        isSearchEnabled={true}
+        updatePersons={updatePersons}
+      />
     </>
-  )
-}
+  );
+};

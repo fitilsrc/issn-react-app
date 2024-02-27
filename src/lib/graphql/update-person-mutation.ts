@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-export const UPDATE_PERSON_MUTATION = gql`
+export const UPDATE_ALIAS_MUTATION = gql`
   mutation UpdateAlias(
     $id: ID
     $updatedBy: String
