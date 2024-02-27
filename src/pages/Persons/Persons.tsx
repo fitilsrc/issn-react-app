@@ -1,5 +1,5 @@
-import { PersonsTable } from '@/components/persons/persons-table';
-import { gql, useQuery } from '@apollo/client';
+import { PersonsTable } from "@/components/persons/persons-table";
+import { gql, useQuery } from "@apollo/client";
 
 const GET_PERSONS = gql`
   query {
@@ -28,16 +28,16 @@ const GET_PERSONS = gql`
 `;
 
 const Persons = () => {
-  const { data, error, loading } = useQuery(GET_PERSONS);
+  const { data, refetch, error, loading } = useQuery(GET_PERSONS);
 
   if (loading) return null;
   if (error) return `Error! ${error}`;
 
   return (
     <section className="flex py-6 gap-6">
-      <PersonsTable persons={data.getPersons} />
+      <PersonsTable persons={data.getPersons} updatePersons={refetch} />
     </section>
-  )
-}
+  );
+};
 
 export default Persons;

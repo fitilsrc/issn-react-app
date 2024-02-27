@@ -5,6 +5,7 @@ import { Button } from "../ui/button";
 import { AliasCard } from "./alias-card";
 import { DocumentsTable } from "./documents-table";
 import { Separator } from "..";
+import { PseudonymDialogForm } from "./pseudonym-dialog-form";
 
 interface PersonViewProps {
   person: PersonType;
@@ -27,10 +28,7 @@ export const PersonView = ({ person, onPersonUpdate }: PersonViewProps) => {
       <Separator className="mt-8"/>
       <div className="flex justify-between items-center">
         <h2>Pseudonyms </h2>
-        <Button variant="secondary">
-          <PlusSquareIcon className="h-5 w-5 mr-2" />
-          Add nick
-        </Button>
+        <PseudonymDialogForm />
       </div>
       <div className="w-fit flex gap-2">
         {pseudonyms &&
