@@ -160,6 +160,9 @@ export const CreateAliasDialogForm = ({
                             required={false}
                             mode="single"
                             selected={field.value}
+                            captionLayout="dropdown-buttons"
+                            fromYear={1900}
+                            toYear={2023}
                             onSelect={(value) => {
                               field.onChange(value);
                               setBirthPopover(false);
@@ -206,6 +209,9 @@ export const CreateAliasDialogForm = ({
                             required={false}
                             mode="single"
                             selected={field.value}
+                            captionLayout="dropdown-buttons"
+                            fromYear={1900}
+                            toYear={2023}
                             onSelect={(value) => {
                               field.onChange(value);
                               setDeathPopover(false);
