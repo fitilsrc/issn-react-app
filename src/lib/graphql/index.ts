@@ -7,3 +7,4 @@ export * from './add-pseudonym-mutation';
 export * from './create-alias-mutation';
 export * from './create-document-mutation';
 export * from './update-document-mutation';
+export * from './delete-document-mutation';

@@ -1,10 +1,10 @@
 import { DocumentType } from "@/lib/types/PersonType";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 import { ColumnDef } from "@tanstack/react-table";
-import { ActionCell } from "./cells";
 import { DataTable } from "./data-table";
 import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
 import { AddDocumentDialogForm } from "./add-document-dialog-form";
+import { ActionDocumentCell } from "./cells/ActionDocumentCell";
 
 interface DocumentsTableProps {
   aliasId?: number;
@@ -48,7 +48,7 @@ const columns: ColumnDef<DocumentType>[] = [
     cell: ({ row }) => {
       const document = row.original;
 
-      return <ActionCell id={document.id} />;
+      return <ActionDocumentCell id={document.id} />;
     },
   },
 ];
