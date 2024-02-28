@@ -1,4 +1,4 @@
-import { PersonType } from "@/lib/types/PersonType"
+import { PersonType } from "@/lib/types/PersonType";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { AliasCard } from "./alias-card";
@@ -14,19 +14,18 @@ interface PersonViewProps {
 }
 
 export const PersonView = ({ person, onPersonUpdate }: PersonViewProps) => {
-
   const { pseudonyms, aliases } = person;
 
   const handleRemovePseudo = (id?: number) => {
-    console.log('[log] pseudonym id', id)
-  }
+    console.log("[log] pseudonym id", id);
+  };
 
   return (
     <div className="flex flex-col gap-4">
       <div className="flex justify-between items-center">
         <h2>Person, registration number # XO-000-000</h2>
       </div>
-      <Separator className="mt-8"/>
+      <Separator className="mt-8" />
       <div className="flex justify-between items-center">
         <h2>Pseudonyms </h2>
         <PseudonymDialogForm onPersonUpdate={onPersonUpdate} />
@@ -51,7 +50,7 @@ export const PersonView = ({ person, onPersonUpdate }: PersonViewProps) => {
             </Badge>
           ))}
       </div>
-      <Separator className="mt-8"/>
+      <Separator className="mt-8" />
       <div className="flex justify-between items-center">
         <h2>Also known as</h2>
         <CreateAliasDialogForm onPersonUpdate={onPersonUpdate} />
@@ -63,10 +62,14 @@ export const PersonView = ({ person, onPersonUpdate }: PersonViewProps) => {
             key={`alias-${alias.id}`}
           >
             <div className="w-1/2">
-              <AliasCard alias={alias} onPersonUpdate={onPersonUpdate}/>
+              <AliasCard alias={alias} onPersonUpdate={onPersonUpdate} />
             </div>
             <div className="w-1/2">
-              <DocumentsTable documents={alias.documents} aliasId={alias.id} onPersonUpdate={onPersonUpdate} />
+              <DocumentsTable
+                documents={alias.documents}
+                aliasId={alias.id}
+                onPersonUpdate={onPersonUpdate}
+              />
             </div>
           </div>
         ))}
