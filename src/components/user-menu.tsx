@@ -8,6 +8,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+import { useTranslation } from 'react-i18next';
 
 interface UserMenuProps {
   abbreviation: string,
@@ -16,7 +17,7 @@ interface UserMenuProps {
 export const UserMenu = ({
   abbreviation
 }: UserMenuProps) => {
-
+  const { t } = useTranslation();
   const { userLogout } = useAuth();
 
   return (
@@ -27,12 +28,12 @@ export const UserMenu = ({
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <DropdownMenuLabel>{t("my_account")}</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Profile</DropdownMenuItem>
-        <DropdownMenuItem>Setting</DropdownMenuItem>
+        <DropdownMenuItem>{t("profile")}</DropdownMenuItem>
+        <DropdownMenuItem>{t("setting")}</DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={userLogout} className="hover:cursor-pointer">Log out</DropdownMenuItem>
+        <DropdownMenuItem onClick={userLogout} className="hover:cursor-pointer">{t("log_out")}</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   )

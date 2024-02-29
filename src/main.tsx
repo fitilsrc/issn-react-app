@@ -4,6 +4,7 @@ import App from './App.tsx';
 import './index.css';
 import { BrowserRouter } from 'react-router-dom';
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+import './i18n.ts';
 
 // const httpLink = createHttpLink({
 //   uri: `${process.env.REACT_APP_API_URI}:${process.env.REACT_APP_API_PORT}/graphql`,

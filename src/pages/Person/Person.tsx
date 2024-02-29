@@ -1,19 +1,16 @@
 import { PersonView } from "@/components/persons/person-view";
-import { GET_PERSON_BY_ID_QUERY } from "@/lib/graphql";
-import { useQuery } from "@apollo/client";
+import { useGetPerson } from "@/lib/hooks";
 import { useParams } from "react-router";
 
 const Person = () => {
   const { personId } = useParams();
 
   const {
-    data: person,
-    refetch: refetchPerson,
+    person,
+    refetchPerson,
     error,
     loading,
-  } = useQuery(GET_PERSON_BY_ID_QUERY, {
-    variables: { personId },
-  });
+  } = useGetPerson(parseInt(personId?.toString() ?? ""));
 
   if (loading) return null;
   if (error) return `Error! ${error}`;

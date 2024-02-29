@@ -4,8 +4,10 @@ import { Button } from './ui/button';
 import { ChevronLeft, ChevronRight, LayoutDashboard, Users } from 'lucide-react';
 import { Logo } from './logo';
 import { Nav } from './ui/nav';
+import { useTranslation } from 'react-i18next';
 
 export const SideNavBar = () => {
+  const { t } = useTranslation();
   const [ isCollapsed, setIsCollapsed ] = useState(false);
 
   const toggleSidebar = () => {
@@ -41,15 +43,15 @@ export const SideNavBar = () => {
         isCollapsed={isCollapsed}
         links={[
           {
-            title: "Dashboard",
-            label: "User Dashboard",
+            title: t("dashboard"),
+            label: t("user_dashboard"),
             href: "/",
             icon: LayoutDashboard,
             variant: "default"
           },
           {
-            title: "Persons",
-            label: "Person Management",
+            title: t("persons"),
+            label: t("person_management"),
             href: "/persons",
             icon: Users,
             variant: "default"
