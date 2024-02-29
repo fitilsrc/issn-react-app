@@ -1,15 +1,14 @@
 import { useToast } from "@/components/ui/use-toast";
-import { UserType } from "../types/UserType";
 import  secureLocalStorage  from  "react-secure-storage";
 import { jwtDecode } from "jwt-decode";
 import { useIssnContext } from "./useIssnContext";
-import { UserRoleType } from "../types/UserRolesType";
-import { TokensType } from "../types/TokensType";
 import { IssnActionType } from "../types/actions";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { SIGNIN_MUTATION, SIGNOUT_MUTATION } from "../graphql";
 import { REFRESH_TOKENS_MUTATION } from "../graphql/refresh-tokens-mutations";
+import { useTranslation } from "react-i18next";
+import { TokensType, UserRoleType, UserType } from "../types";
 
 type JwtPayloadType = {
   realm_access: any,
@@ -22,6 +21,7 @@ type JwtPayloadType = {
 }
 
 export function useAuth() {
+  const { t } = useTranslation();
   const { toast } = useToast()
   const { dispatch } = useIssnContext()
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ export function useAuth() {
   const [logout] = useMutation(SIGNOUT_MUTATION);
   const [refresh] = useMutation(REFRESH_TOKENS_MUTATION);
 
-  const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+  const weekday = [t("sunday"), t("monday"), t("tuesday"), t("wednesday"), t("thursday"), t("friday"), t("saturday")]
 
   /**
    * Gets user info from existing access token
@@ -128,8 +128,8 @@ export function useAuth() {
         }
         toast({
           variant: "default",
-          title: !data.signOutUser.error ? "Your are successfully logged out" : "An error occurred",
-          description: !data.signOutUser.error ? "All session data has been deleted from the local system" : data.signOutUser.error,
+          title: !data.signOutUser.error ? t("user_logout_toast_title") : t("error_toast_title"),
+          description: !data.signOutUser.error ? t("user_logout_toast_description") : data.signOutUser.error,
         });
       }
     })
@@ -159,7 +159,7 @@ export function useAuth() {
 
         toast({
           variant: "default",
-          title: !data.signInUser.error ? `${user?.name} successfully logged in` : "An error occurred",
+          title: !data.signInUser.error ? `${user?.name} ${t("user_login_toast_title")}` : t("error_toast_title"),
           description: !data.signInUser.error ? `${weekday.at(date.getDay())},
             ${date.toLocaleString("default", { month: "long" })} ${date.getDate()},
             ${date.getFullYear()} at ${date.getHours()}:${date.getMinutes()}` : data.signInUser.error,

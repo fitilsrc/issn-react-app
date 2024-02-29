@@ -1,7 +1,6 @@
 import { useToast } from "@/components/ui/use-toast";
 import { useIssnContext } from "./useIssnContext";
 import { useMutation } from "@apollo/client";
-import { AliasType, DocumentType } from "../types/PersonType";
 import {
   ADD_PSEUDONYM_MUTATION,
   CREATE_ALIAS_MUTATION,
@@ -12,9 +11,11 @@ import {
   UPDATE_DOCUMENT_MUTATION
 } from "../graphql";
 import { useNavigate } from "react-router";
-import { StatusType } from "../types/ResponseStatusType";
+import { useTranslation } from "react-i18next";
+import { AliasType, StatusType } from "../types";
 
 export function usePerson() {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const { state } = useIssnContext();
   const navigate = useNavigate();
@@ -37,7 +38,7 @@ export function usePerson() {
       onCompleted: () => {
         toast({
           variant: "default",
-          title: "Person Pseudonym successfully created",
+          title: t("add_pseudonym_toast_title"),
           description: "",
         });
       }
@@ -133,7 +134,7 @@ export function usePerson() {
       onCompleted: (data) => {
         toast({
           variant: "default",
-          title: data.deleteDocument.status === StatusType.ERROR ? "An error occurred" : "Document successfully deleted",
+          title: data.deleteDocument.status === StatusType.ERROR ? t("error_toast_title") : "Document successfully deleted",
           description: data.deleteDocument.status === StatusType.ERROR ? data.deleteDocument.message : "",
         });
       }
