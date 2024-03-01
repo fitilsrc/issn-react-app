@@ -1,3 +1,4 @@
 export * from './AliasesCell';
 export * from './PseudonymsCell';
-export * from './ActionCell';
+export * from './ActionPersonCell';
+export * from './ActionDocumentCell';

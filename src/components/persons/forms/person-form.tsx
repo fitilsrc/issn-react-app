@@ -15,14 +15,19 @@ import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
+import { useGetPerson, usePerson } from "@/lib/hooks";
+import { PersonType } from "@/lib/types";
 
-// interface PersonFormProps {
-//   mode?: boolean;
-// }
+interface PersonFormProps {
+  person: PersonType;
+}
 
-export const PersonForm = () => {
+export const PersonForm = ({ person }: PersonFormProps) => {
   const { t } = useTranslation();
+  const { updatePerson } = usePerson();
+  const { personId } = useParams();
+  const { refetchPerson } = useGetPerson(parseInt(personId?.toString() ?? ""));
   const [isDeathPopover, setDeathPopover] = useState(false);
   const [isBirthPopover, setBirthPopover] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -42,19 +47,25 @@ export const PersonForm = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      birthPlace: "",
-      details: "",
-      signs: "",
-      nationality: "",
-      gender: "",
-      religion: "",
-      ideology: "",
+      birthPlace: person.birthPlace ?? "",
+      details: person.details ?? "",
+      signs: person.signs ?? "",
+      nationality: person.nationality ?? "",
+      gender: person.gender ?? "",
+      religion: person.religion ?? "",
+      ideology: person.ideology ?? "",
+      birthday: new Date(person.birthday ?? ""),
+      deathday: new Date(person.deathday ?? ""),
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setSearchParams({mode: "plain"});
-    console.log('[log] values', values)
+    await updatePerson({
+      ...values,
+      id: parseInt(personId?.toString() ?? "")
+    });
+    refetchPerson();
   };
 
   return (
@@ -130,7 +141,7 @@ export const PersonForm = () => {
                     <FormLabel>{t("date_of_birth")}</FormLabel>
                     {searchParams.get("mode")==="plain" ? (
                       <Badge className="w-full px-4 py-4 text-center" variant="secondary">
-                        {!field.value ? t("no-info") : field.value.toLocaleDateString()}
+                        {!field.value ? t("no-info") : new Date(field.value).toLocaleDateString()}
                       </Badge>
                     ) : (
                       <Popover open={isBirthPopover} onOpenChange={setBirthPopover}>
@@ -186,7 +197,7 @@ export const PersonForm = () => {
                     <FormLabel>{t("date_of_death")}</FormLabel>
                     {searchParams.get("mode")==="plain" ? (
                       <Badge className="w-full px-4 py-4 text-center" variant="secondary">
-                        {!field.value ? t("no-info") : field.value.toLocaleDateString()}
+                        {!field.value ? t("no-info") : new Date(field.value).toLocaleDateString()}
                       </Badge>
                     ) : (
                       <Popover open={isDeathPopover} onOpenChange={setDeathPopover}>
