@@ -1,19 +1,21 @@
-import { Dialog, DialogClose, DialogContent, DialogFooter, DialogTrigger } from "../ui/dialog";
-import { Button } from "../ui/button";
 import { PlusSquareIcon } from "lucide-react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
-import { Input } from "../ui/input";
 import { useParams } from "react-router";
 import { usePerson } from "@/lib/hooks/usePerson";
+import { useTranslation } from "react-i18next";
+import { Dialog, DialogClose, DialogContent, DialogFooter, DialogTrigger } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 
 interface PseudonymDialogFormProps {
   onPersonUpdate?: () => void;
 }
 
 export const PseudonymDialogForm = ({ onPersonUpdate }: PseudonymDialogFormProps) => {
+  const { t } = useTranslation();
   const { personId } = useParams();
   const { addPseudonym } = usePerson();
 
@@ -37,7 +39,7 @@ export const PseudonymDialogForm = ({ onPersonUpdate }: PseudonymDialogFormProps
     <Dialog>
       <DialogTrigger asChild>
         <Button variant="secondary">
-          <PlusSquareIcon className="h-5 w-5 mr-2" /> Add
+          <PlusSquareIcon className="h-5 w-5 mr-2" /> {t("add")}
         </Button>
       </DialogTrigger>
       <DialogContent>
@@ -48,9 +50,9 @@ export const PseudonymDialogForm = ({ onPersonUpdate }: PseudonymDialogFormProps
               name="title"
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <FormLabel>Pseudonym</FormLabel>
+                  <FormLabel>{t("pseudonym")}</FormLabel>
                   <FormControl>
-                    <Input placeholder="pseudonym" {...field} />
+                    <Input placeholder={t("pseudonym").toLowerCase()} {...field} />
                   </FormControl>
                   <FormDescription />
                   <FormMessage />
@@ -59,7 +61,7 @@ export const PseudonymDialogForm = ({ onPersonUpdate }: PseudonymDialogFormProps
             />
             <DialogFooter className="pt-4">
               <DialogClose asChild>
-                <Button type="submit">Add</Button>
+                <Button type="submit">{t("add")}</Button>
               </DialogClose>
             </DialogFooter>
           </form>

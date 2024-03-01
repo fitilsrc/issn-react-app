@@ -13,12 +13,14 @@ import {
 import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 import { AliasType, StatusType } from "../types";
+import { useGetPersons } from ".";
 
 export function usePerson() {
   const { t } = useTranslation();
   const { toast } = useToast();
   const { state } = useIssnContext();
   const navigate = useNavigate();
+  const { refetchPersons } = useGetPersons();
 
   const [updateAliasMutation] = useMutation(UPDATE_ALIAS_MUTATION);
   const [createAliasMutation] = useMutation(CREATE_ALIAS_MUTATION);
@@ -28,7 +30,7 @@ export function usePerson() {
   const [createDocumentMutation] = useMutation(CREATE_DOCUMENT_MUTATION);
   const [deleteDocumentMutation] = useMutation(DELETE_DOCUMENT_MUTATION);
 
-  const addPseudonym = (personId: number, title: string) => {
+  const addPseudonym = async (personId: number, title: string) => {
     addPseudonymMutation({
       variables: {
         createdBy: state.user?.name,
@@ -45,7 +47,7 @@ export function usePerson() {
     })
   }
 
-  const addPerson = () => {
+  const addPerson = async () => {
     createPersonMutation({
       variables: {
         createdBy: state.user?.name,
@@ -56,12 +58,13 @@ export function usePerson() {
           title: "Person successfully created",
           description: "",
         });
-        navigate(`/person/${data.createPerson.id}`);
+        refetchPersons();
+        navigate(`/person/${data.createPerson.id}?mode=edit`);
       }
     })
   }
 
-  const createAlias = (alias: Partial<AliasType>) => {
+  const createAlias = async (alias: Partial<AliasType>) => {
     createAliasMutation({
       variables: {
         ...alias,
@@ -77,7 +80,7 @@ export function usePerson() {
     })
   }
 
-  const updateAlias = (alias: AliasType) => {
+  const updateAlias = async (alias: AliasType) => {
     updateAliasMutation({
       variables: {
         ...alias,
@@ -94,7 +97,7 @@ export function usePerson() {
     })
   }
 
-  const updateDocument = (document: DocumentType) => {
+  const updateDocument = async (document: DocumentType) => {
     updateDocumentMutation({
       variables: {
         ...document,
@@ -110,7 +113,7 @@ export function usePerson() {
     })
   }
 
-  const createDocument = (document: DocumentType) => {
+  const createDocument = async (document: DocumentType) => {
     createDocumentMutation({
       variables: {
         ...document,
@@ -126,7 +129,7 @@ export function usePerson() {
     })
   }
 
-  const deleteDocument = (documentId: number) => {
+  const deleteDocument = async (documentId: number) => {
     deleteDocumentMutation({
       variables: {
         documentId: parseInt(documentId.toString())

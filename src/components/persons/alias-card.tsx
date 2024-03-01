@@ -8,9 +8,11 @@ import {
   CardTitle,
 } from "../ui/card";
 import { Button } from "../ui/button";
-import { Image, Trash2 } from "lucide-react";
-import { AspectRatio } from "@radix-ui/react-aspect-ratio";
+import { Trash2 } from "lucide-react";
 import { UpdateAliasDialogForm } from "./update-alias-dialog-form";
+import { useTranslation } from "react-i18next";
+import { DocumentsTable } from "./documents-table";
+import { AddDocumentDialogForm } from "./forms/add-document-dialog-form";
 
 interface AliasCardProps {
   alias: AliasType;
@@ -18,77 +20,47 @@ interface AliasCardProps {
 }
 
 export const AliasCard = ({ alias, onPersonUpdate }: AliasCardProps) => {
+  const { t } = useTranslation();
+
   return (
     <Card className="w-full h-full">
       <div className="flex flex-col justify-start h-full lg:flex-row">
-        <div className="flex justify-center items-center w-full p-6 lg:w-1/3 lg:pr-0">
-          <AspectRatio
-            ratio={3 / 4}
-            className="bg-muted flex justify-center items-center"
-          >
-            <Image className="self-center w-8 h-8" />
-          </AspectRatio>
-        </div>
-
-        <div className="w-full lg:w-2/3 h-full">
+        <div className="w-full h-full">
           <CardHeader>
-            <CardTitle>{`${alias.firstName} ${alias.surname ?? ""} ${
-              alias.secondName
-            }`}</CardTitle>
+            <CardTitle className="flex justify-between gap-4 items-center">
+              <div>
+                {`${alias.firstName} ${alias.surname ?? ""} ${alias.secondName}`}
+              </div>
+              <div className="flex gap-4 items-center">
+                <UpdateAliasDialogForm alias={alias} onPersonUpdate={onPersonUpdate}/>
+                <Button variant="destructive" size="icon">
+                  <Trash2 className="h-5 w-5" />
+                </Button>
+              </div>
+            </CardTitle>
+
             {alias.description && (
               <CardDescription>{alias.description}</CardDescription>
             )}
           </CardHeader>
           <CardContent>
-            <div className="flex flex-col gap-2">
-              {alias.gender && (
-                <div className="flex flex-row items-center gap-2">
-                  <div className="text-sm font-medium leading-none w-1/2">{`Gender:`}</div>
-                  <div className="text-sm text-muted-foreground">
-                    {alias.gender}
-                  </div>
-                </div>
-              )}
-              {alias.birthday && (
-                <div className="flex flex-row items-center gap-2">
-                  <div className="text-sm font-medium leading-none w-1/2">{`Was born:`}</div>
-                  <div className="text-sm text-muted-foreground">
-                    {new Date(alias.birthday).toDateString()}
-                  </div>
-                </div>
-              )}
-              {alias.birthPlace && (
-                <div className="flex flex-row items-center gap-2">
-                  <div className="text-sm font-medium leading-none w-1/2">{`Place of birth:`}</div>
-                  <div className="text-sm text-muted-foreground">
-                    {alias.birthPlace}
-                  </div>
-                </div>
-              )}
-              {alias.deathday && (
-                <div className="flex flex-row items-center gap-2">
-                  <div className="text-sm font-medium leading-none w-1/2">{`Date of death:`}</div>
-                  <div className="text-sm text-muted-foreground">
-                    {new Date(alias.deathday).toDateString()}
-                  </div>
-                </div>
-              )}
+            <div className="flex flex-col gap-4">
               {alias.citizenship && (
                 <div className="flex flex-row items-center gap-2">
-                  <div className="text-sm font-medium leading-none w-1/2">{`Citizenship:`}</div>
+                  <div className="text-sm font-medium leading-none">{`${t("citizenship")}:`}</div>
                   <div className="text-sm text-muted-foreground">
                     {alias.citizenship}
                   </div>
                 </div>
               )}
+              <div className="flex flex-col gap-2">
+                <div className="text-sm font-medium leading-none">{`${t("documents")}:`}</div>
+                <DocumentsTable documents={alias.documents} />
+                <AddDocumentDialogForm aliasId={alias.id} onPersonUpdate={onPersonUpdate}/>
+              </div>
             </div>
           </CardContent>
-          <CardFooter className="flex gap-2 items-center justify-end pt-6">
-            <UpdateAliasDialogForm alias={alias} onPersonUpdate={onPersonUpdate}/>
-            <Button variant="destructive">
-              <Trash2 className="h-5 w-5 mr-2" /> Delete
-            </Button>
-          </CardFooter>
+          <CardFooter></CardFooter>
         </div>
       </div>
     </Card>

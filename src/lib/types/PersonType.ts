@@ -4,8 +4,20 @@ export type PersonType = {
   updatedAt?: Date;
   createdBy?: string;
   updatedBy?: string;
+
+  birthday?: Date;
+  birthPlace?: string;
+  deathday?: Date;
+  details?: string;
+  signs?: string;
+  nationality?: string;
+  gender?: string;
+  religion?: string;
+  ideology?: string;
+
   pseudonyms?: PseudonymType[];
   aliases?: AliasType[];
+  files?: FileType[];
 }
 
 export type PseudonymType = {
@@ -15,6 +27,7 @@ export type PseudonymType = {
   createdBy?: string;
   updatedBy?: string;
   title?: string;
+  personId: number;
 }
 
 export type DocumentType = {
@@ -24,7 +37,7 @@ export type DocumentType = {
   createdBy?: string;
   updatedBy?: string;
   title?: string;
-  series?: string;
+  series: string;
   issued?: Date;
   aliasId: number;
 }
@@ -38,12 +51,18 @@ export type AliasType = {
   firstName?: string;
   secondName?: string;
   surname?: string;
-  birthday?: Date;
-  deathday?: Date;
-  birthPlace?: string;
   citizenship?: string;
-  gender?: string;
   description?: string;
   personId: number;
   documents?: DocumentType[];
+}
+
+export type FileType = {
+  id?: number;
+  createdAt?: Date;
+  updatedAt?: Date;
+  createdBy?: string;
+  updatedBy?: string;
+  uri?: string;
+  personId: number;
 }

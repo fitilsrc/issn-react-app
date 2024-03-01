@@ -1,15 +1,10 @@
 import { DocumentType } from "@/lib/types/PersonType";
-import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "./data-table";
-import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
-import { AddDocumentDialogForm } from "./add-document-dialog-form";
 import { ActionDocumentCell } from "./cells/ActionDocumentCell";
 
 interface DocumentsTableProps {
-  aliasId?: number;
   documents?: DocumentType[];
-  onPersonUpdate?: () => void;
 }
 
 const columns: ColumnDef<DocumentType>[] = [
@@ -55,27 +50,9 @@ const columns: ColumnDef<DocumentType>[] = [
 
 export const DocumentsTable = ({
   documents,
-  aliasId,
-  onPersonUpdate,
 }: DocumentsTableProps) => {
   if (!documents) return "No documents";
   return (
-    <Card className="h-full relative">
-      <CardHeader className="pb-0"></CardHeader>
-      <CardContent>
-        <ScrollArea className="w-full h-full whitespace-nowrap">
-          <div className="flex w-full space-x-4">
-            <DataTable columns={columns} data={documents} />
-          </div>
-          <ScrollBar orientation="horizontal" />
-        </ScrollArea>
-      </CardContent>
-      <CardFooter>
-        <AddDocumentDialogForm
-          aliasId={aliasId}
-          onPersonUpdate={onPersonUpdate}
-        />
-      </CardFooter>
-    </Card>
+    <DataTable columns={columns} data={documents} />
   );
 };

@@ -1,27 +1,8 @@
-import { gql, useQuery } from "@apollo/client";
-
-const GET_PERSONS = gql`
-  query {
-    getPersons {
-      id
-      pseudonyms {
-        id
-        title
-      }
-      aliases {
-        id
-        firstName
-        secondName
-        surname
-        birthday
-        birthPlace
-      }
-    }
-  }
-`;
+import { useQuery } from "@apollo/client";
+import { GET_PERSONS_QUERY } from "../graphql";
 
 export function useGetPersons() {
-  const { data: persons, refetch: refetchPersons, error, loading } = useQuery(GET_PERSONS);
+  const { data: persons, refetch: refetchPersons, error, loading } = useQuery(GET_PERSONS_QUERY);
 
   return { persons, refetchPersons, error, loading }
 }

@@ -2,36 +2,66 @@ import { gql } from "@apollo/client";
 
 export const GET_PERSON_BY_ID_QUERY = gql`
   query GetPersonById(
-    $personId: ID!
+    $personId: Float!
   ) {
     getPersonById(
-      personInput: {
-        id: $personId
-      }
+      personId: $personId
     ) {
       id
+      createdAt
+      updatedAt
+      createdBy
+      updatedBy
+      birthday
+      deathday
+      birthPlace
+      gender
+      details
+      signs
+      nationality
+      religion
+      ideology
       pseudonyms {
         id
+        createdAt
+        updatedAt
+        createdBy
+        updatedBy
         title
+        personId
       }
       aliases {
         id
+        createdAt
+        updatedAt
         createdBy
+        updatedBy
         firstName
         secondName
         surname
-        birthday
-        deathday
-        birthPlace
         citizenship
-        gender
+        description
         personId
         documents {
           id
+          createdAt
+          updatedAt
+          createdBy
+          updatedBy
           title
           series
           issued
+          aliasId
         }
+      }
+      files {
+        id
+        createdAt
+        updatedAt
+        createdBy
+        updatedBy
+        uri
+        personId
       }
     }
   }
