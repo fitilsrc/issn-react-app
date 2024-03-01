@@ -1,7 +1,7 @@
 import { DocumentType } from "@/lib/types/PersonType";
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "./data-table";
-import { ActionDocumentCell } from "./cells/ActionDocumentCell";
+import { ActionDocumentCell } from "./cells";
 
 interface DocumentsTableProps {
   documents?: DocumentType[];

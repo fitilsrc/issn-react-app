@@ -7,12 +7,14 @@ import {
   CREATE_DOCUMENT_MUTATION,
   CREATE_PERSON_MUTATION,
   DELETE_DOCUMENT_MUTATION,
+  DELETE_PERSON_MUTATION,
   UPDATE_ALIAS_MUTATION,
-  UPDATE_DOCUMENT_MUTATION
+  UPDATE_DOCUMENT_MUTATION,
+  UPDATE_PERSON_MUTATION
 } from "../graphql";
 import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
-import { AliasType, StatusType } from "../types";
+import { AliasType, PersonType, StatusType } from "../types";
 import { useGetPersons } from ".";
 
 export function usePerson() {
@@ -29,6 +31,8 @@ export function usePerson() {
   const [updateDocumentMutation] = useMutation(UPDATE_DOCUMENT_MUTATION);
   const [createDocumentMutation] = useMutation(CREATE_DOCUMENT_MUTATION);
   const [deleteDocumentMutation] = useMutation(DELETE_DOCUMENT_MUTATION);
+  const [deletePersonMutation] = useMutation(DELETE_PERSON_MUTATION);
+  const [updatePersonMutation] = useMutation(UPDATE_PERSON_MUTATION);
 
   const addPseudonym = async (personId: number, title: string) => {
     addPseudonymMutation({
@@ -60,6 +64,38 @@ export function usePerson() {
         });
         refetchPersons();
         navigate(`/person/${data.createPerson.id}?mode=edit`);
+      }
+    })
+  }
+
+  const updatePerson = async (person: PersonType) => {
+    updatePersonMutation({
+      variables: {
+        ...person,
+        updatedBy: state.user?.name,
+      },
+      onCompleted: () => {
+        toast({
+          variant: "default",
+          title: "Person successfully updated",
+          description: "",
+        });
+      }
+    })
+  }
+
+  const deletePerson = async (personId: number) => {
+    deletePersonMutation({
+      variables: {
+        personId: parseInt(personId.toString())
+      },
+      onCompleted: (data) => {
+        toast({
+          variant: "default",
+          title: data.deletePerson.status === StatusType.ERROR ? t("error_toast_title") : "Person successfully deleted",
+          description: data.deletePerson.status === StatusType.ERROR ? data.deletePerson.message : "",
+        });
+        refetchPersons();
       }
     })
   }
@@ -144,5 +180,5 @@ export function usePerson() {
     })
   }
 
-  return { updateAlias, createAlias, addPerson, addPseudonym, updateDocument, createDocument, deleteDocument }
+  return { updateAlias, createAlias, addPerson, addPseudonym, updateDocument, createDocument, deleteDocument, deletePerson, updatePerson }
 }

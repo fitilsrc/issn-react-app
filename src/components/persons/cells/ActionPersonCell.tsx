@@ -5,15 +5,22 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useGetPersons, usePerson } from "@/lib/hooks";
 import { MoreVertical } from "lucide-react";
 import { Link } from "react-router-dom";
 
-interface ActionCellProps {
+interface ActionPersonCellProps {
   id?: number;
   isViewMode?: boolean;
 }
 
-export const ActionCell = ({ id, isViewMode }: ActionCellProps) => {
+export const ActionPersonCell = ({ id, isViewMode }: ActionPersonCellProps) => {
+  const { deletePerson } = usePerson();
+
+  const handleDelete = async () => {
+    id && await deletePerson(id)
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -30,7 +37,7 @@ export const ActionCell = ({ id, isViewMode }: ActionCellProps) => {
             <Link to={`/person/${id}?mode=plain`} className="w-full">View</Link>
           </DropdownMenuItem>
         )}
-        <DropdownMenuItem>Delete</DropdownMenuItem>
+        <DropdownMenuItem onClick={handleDelete}>Delete</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

@@ -9,3 +9,5 @@ export * from './create-document-mutation';
 export * from './update-document-mutation';
 export * from './delete-document-mutation';
 export * from './get-persons-query';
+export * from './delete-person-mutation';
+export * from './update-person-mutation';

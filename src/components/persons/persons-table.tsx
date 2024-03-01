@@ -1,6 +1,6 @@
 import { AliasType, PersonType, PseudonymType } from "@/lib/types/PersonType";
 import { ColumnDef } from "@tanstack/react-table";
-import { ActionCell, AliasesCell, PseudonymsCell } from "./cells";
+import { ActionPersonCell, AliasesCell, PseudonymsCell } from "./cells";
 import { DataTable } from "./data-table";
 
 interface PersonsTableProps {
@@ -41,7 +41,7 @@ const columns: ColumnDef<PersonType>[] = [
     cell: ({ row }) => {
       const person = row.original;
 
-      return <ActionCell id={person.id} isViewMode={true} />;
+      return <ActionPersonCell id={person.id} isViewMode={true} />;
     },
   },
 ];
