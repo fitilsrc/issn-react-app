@@ -1,18 +1,20 @@
 import { CalendarIcon, PlusSquareIcon } from "lucide-react";
-import { Button } from "../ui/button";
-import { Dialog, DialogClose, DialogContent, DialogFooter, DialogTrigger } from "../ui/dialog";
 import { usePerson } from "@/lib/hooks/usePerson";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
-import { Input } from "../ui/input";
 import { Popover } from "@radix-ui/react-popover";
 import { useState } from "react";
-import { PopoverContent, PopoverTrigger } from "../ui/popover";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
-import { Calendar } from "../ui/calendar";
+import { Dialog, DialogClose, DialogContent, DialogFooter, DialogTrigger } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { useTranslation } from "react-i18next";
+
 
 interface AddDocumentDialogFormProps {
   aliasId?: number;
@@ -23,6 +25,7 @@ export const AddDocumentDialogForm = ({
   aliasId,
   onPersonUpdate
 }: AddDocumentDialogFormProps) => {
+  const { t } = useTranslation();
   const { createDocument } = usePerson();
   const [isIssuedPopover, setIssuedPopover] = useState(false)
 
@@ -41,10 +44,10 @@ export const AddDocumentDialogForm = ({
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    aliasId && await createDocument({
+    aliasId && createDocument({
       ...values,
       aliasId: parseInt(aliasId.toString())
-    });
+    } as unknown as DocumentType)
     onPersonUpdate?.();
   };
 
@@ -52,7 +55,7 @@ export const AddDocumentDialogForm = ({
     <Dialog>
       <DialogTrigger asChild>
         <Button variant="secondary">
-          <PlusSquareIcon className="h-5 w-5 mr-2" /> Add
+          <PlusSquareIcon className="h-5 w-5 mr-2" /> {t("add")}
         </Button>
       </DialogTrigger>
       <DialogContent>

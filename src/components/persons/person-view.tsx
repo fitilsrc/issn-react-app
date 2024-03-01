@@ -1,12 +1,14 @@
 import { PersonType } from "@/lib/types/PersonType";
-import { Badge } from "../ui/badge";
-import { Button } from "../ui/button";
 import { AliasCard } from "./alias-card";
-import { DocumentsTable } from "./documents-table";
 import { Separator } from "..";
-import { PseudonymDialogForm } from "./pseudonym-dialog-form";
-import { CreateAliasDialogForm } from "./create-alias-dialog-form";
-import { X } from "lucide-react";
+import { ImageIcon, X } from "lucide-react";
+import { PersonForm } from "./forms/person-form";
+import { useTranslation } from "react-i18next";
+import { AspectRatio } from "../ui/aspect-ratio";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { PseudonymView } from "./pseudonym-view";
+import { PseudonymDialogForm } from "./forms/pseudonym-dialog-form";
+import { CreateAliasDialogForm } from "./forms/create-alias-dialog-form";
 
 interface PersonViewProps {
   person: PersonType;
@@ -14,65 +16,71 @@ interface PersonViewProps {
 }
 
 export const PersonView = ({ person, onPersonUpdate }: PersonViewProps) => {
+  const { t } = useTranslation();
   const { pseudonyms, aliases } = person;
 
-  const handleRemovePseudo = (id?: number) => {
-    console.log("[log] pseudonym id", id);
-  };
+
 
   return (
     <div className="flex flex-col gap-4">
       <div className="flex justify-between items-center">
         <h2>Person, registration number # XO-000-000</h2>
       </div>
-      <Separator className="mt-8" />
-      <div className="flex justify-between items-center">
-        <h2>Pseudonyms </h2>
-        <PseudonymDialogForm onPersonUpdate={onPersonUpdate} />
-      </div>
-      <div className="w-fit flex gap-2">
-        {pseudonyms &&
-          pseudonyms.map((pseudonym) => (
-            <Badge
-              variant="secondary"
-              className="flex gap-2"
-              key={`pseudonym-${pseudonym.id}`}
-            >
-              {pseudonym.title}
-              <Button
-                variant="secondary"
-                size="icon"
-                className="w-4 h-4 rounded-full"
-                onClick={() => handleRemovePseudo(pseudonym.id)}
-              >
-                <X className="h-3 w-3" />
-              </Button>
-            </Badge>
-          ))}
-      </div>
-      <Separator className="mt-8" />
-      <div className="flex justify-between items-center">
-        <h2>Also known as</h2>
-        <CreateAliasDialogForm onPersonUpdate={onPersonUpdate} />
-      </div>
-      {aliases &&
-        aliases.map((alias) => (
-          <div
-            className="flex flex-row gap-4 h-fit items-stretch w-full"
-            key={`alias-${alias.id}`}
+      <Separator className="mt-4" />
+
+
+      <div className="flex gap-6 w-full justify-start items-start">
+        <div className="flex justify-center items-center w-full pr-6 pb-6 lg:w-1/3 lg:pr-0">
+          <AspectRatio
+            ratio={3 / 4}
+            className="bg-muted flex justify-center items-center"
           >
-            <div className="w-1/2">
-              <AliasCard alias={alias} onPersonUpdate={onPersonUpdate} />
-            </div>
-            <div className="w-1/2">
-              <DocumentsTable
-                documents={alias.documents}
-                aliasId={alias.id}
-                onPersonUpdate={onPersonUpdate}
-              />
-            </div>
-          </div>
-        ))}
+            <ImageIcon className="self-center w-8 h-8" />
+          </AspectRatio>
+        </div>
+
+        <div className="flex flex-col gap-4 lg:w-2/3">
+
+          <Card>
+            <CardHeader>
+              <CardTitle>
+                <div className="flex justify-between items-center">
+                  <h2>{t("pseudonyms")}</h2>
+                  <PseudonymDialogForm onPersonUpdate={onPersonUpdate} />
+                </div>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <PseudonymView pseudonyms={pseudonyms} />
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>
+                <div className="flex justify-between items-center">
+                  <h2>{t("also_known_as")}</h2>
+                  <CreateAliasDialogForm onPersonUpdate={onPersonUpdate} />
+                </div>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {aliases &&
+                aliases.map((alias) => (
+                  <div
+                    className="flex flex-row gap-4 h-fit items-stretch w-full"
+                    key={`alias-${alias.id}`}
+                  >
+                    <AliasCard alias={alias} onPersonUpdate={onPersonUpdate} />
+                  </div>
+                ))
+              }
+            </CardContent>
+          </Card>
+
+          <PersonForm />
+        </div>
+      </div>
     </div>
   );
 };

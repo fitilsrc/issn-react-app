@@ -8,3 +8,4 @@ export * from './create-alias-mutation';
 export * from './create-document-mutation';
 export * from './update-document-mutation';
 export * from './delete-document-mutation';
+export * from './get-persons-query';

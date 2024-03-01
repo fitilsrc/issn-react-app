@@ -19,25 +19,25 @@ import {
 } from "@/components/ui/table";
 import { useState } from "react";
 import { Input } from "../ui/input";
+import { useTranslation } from "react-i18next";
 import { Button } from "../ui/button";
 import { PlusSquareIcon } from "lucide-react";
-import { usePerson } from "@/lib/hooks/usePerson";
+import { usePerson } from "@/lib/hooks";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   isSearchEnabled?: boolean;
-  updatePersons?: () => void;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
   isSearchEnabled,
-  updatePersons
 }: DataTableProps<TData, TValue>) {
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const { t } = useTranslation();
   const { addPerson } = usePerson();
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
   const table = useReactTable({
     data,
@@ -55,11 +55,6 @@ export function DataTable<TData, TValue>({
     },
   });
 
-  const handleAddPerson = async () => {
-    await addPerson();
-    updatePersons?.();
-  }
-
   return (
     <div className="w-full">
       {isSearchEnabled && (
@@ -74,8 +69,8 @@ export function DataTable<TData, TValue>({
             }
             className="max-w-sm"
           />
-          <Button variant="secondary" onClick={handleAddPerson}>
-            <PlusSquareIcon className="h-5 w-5 mr-2" /> Add Person
+          <Button variant="secondary" onClick={addPerson}>
+            <PlusSquareIcon className="h-5 w-5 mr-2" /> {t("add")}
           </Button>
         </div>
       )}
@@ -122,7 +117,7 @@ export function DataTable<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  {t("no_results")}
                 </TableCell>
               </TableRow>
             )}

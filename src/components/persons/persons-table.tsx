@@ -5,7 +5,6 @@ import { DataTable } from "./data-table";
 
 interface PersonsTableProps {
   persons: PersonType[];
-  updatePersons?: () => void;
 }
 
 const columns: ColumnDef<PersonType>[] = [
@@ -47,14 +46,13 @@ const columns: ColumnDef<PersonType>[] = [
   },
 ];
 
-export const PersonsTable = ({ persons, updatePersons }: PersonsTableProps) => {
+export const PersonsTable = ({ persons }: PersonsTableProps) => {
   return (
     <>
       <DataTable
         columns={columns}
         data={persons}
         isSearchEnabled={true}
-        updatePersons={updatePersons}
       />
     </>
   );

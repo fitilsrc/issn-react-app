@@ -1,24 +1,26 @@
-import { AliasType } from "@/lib/types/PersonType"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
+
 import { useForm } from "react-hook-form";
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import { EditIcon } from "lucide-react";
-import { Dialog, DialogClose, DialogContent, DialogFooter, DialogTrigger } from "../ui/dialog";
+import { PlusSquareIcon } from "lucide-react";
 import { usePerson } from "@/lib/hooks/usePerson";
+import { useParams } from "react-router";
+import { Dialog, DialogClose, DialogContent, DialogFooter, DialogTrigger } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { useTranslation } from "react-i18next";
 
-interface UpdateAliasFormProps {
-  alias?: AliasType;
+interface CreateAliasFormProps {
   onPersonUpdate?: () => void;
 }
 
-export const UpdateAliasDialogForm = ({
-  alias,
+export const CreateAliasDialogForm = ({
   onPersonUpdate
-}: UpdateAliasFormProps) => {
-  const { updateAlias } = usePerson();
+}: CreateAliasFormProps) => {
+  const { t } = useTranslation();
+  const { personId } = useParams();
+  const { createAlias } = usePerson();
 
   const formSchema = z.object({
     firstName: z.string().min(2).max(50).optional(),
@@ -30,18 +32,17 @@ export const UpdateAliasDialogForm = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      firstName: alias?.firstName ?? "",
-      secondName: alias?.secondName ?? "",
-      surname: alias?.surname ?? "",
-      citizenship: alias?.citizenship ?? "",
+      firstName: "",
+      secondName: "",
+      surname: "",
+      citizenship: "",
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    alias && await updateAlias({
+    personId && await createAlias({
       ...values,
-      id: alias.id,
-      personId: alias.personId
+      personId: parseInt(personId)
     });
     onPersonUpdate?.();
   };
@@ -49,8 +50,8 @@ export const UpdateAliasDialogForm = ({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="secondary" size="icon">
-          <EditIcon className="h-5 w-5" />
+        <Button variant="secondary">
+          <PlusSquareIcon className="h-5 w-5 mr-2" /> {t("add")}
         </Button>
       </DialogTrigger>
       <DialogContent>
@@ -63,9 +64,9 @@ export const UpdateAliasDialogForm = ({
                   name="firstName"
                   render={({ field }) => (
                     <FormItem className="w-1/2">
-                      <FormLabel>First Name</FormLabel>
+                      <FormLabel>{t("first_name")}</FormLabel>
                       <FormControl>
-                        <Input placeholder="first name" {...field} />
+                        <Input placeholder={t("first_name").toLowerCase()} {...field} />
                       </FormControl>
                       <FormDescription />
                       <FormMessage />
@@ -77,9 +78,9 @@ export const UpdateAliasDialogForm = ({
                   name="secondName"
                   render={({ field }) => (
                     <FormItem className="w-1/2">
-                      <FormLabel>Second Name</FormLabel>
+                      <FormLabel>{t("second_name")}</FormLabel>
                       <FormControl>
-                        <Input placeholder="second name" {...field} />
+                        <Input placeholder={t("second_name").toLowerCase()} {...field} />
                       </FormControl>
                       <FormDescription />
                       <FormMessage />
@@ -93,29 +94,23 @@ export const UpdateAliasDialogForm = ({
                   name="surname"
                   render={({ field }) => (
                     <FormItem className="w-1/2">
-                      <FormLabel>Surname</FormLabel>
+                      <FormLabel>{t("middle_name")}</FormLabel>
                       <FormControl>
-                        <Input placeholder="surname" {...field} />
+                        <Input placeholder={t("middle_name")} {...field} />
                       </FormControl>
                       <FormDescription />
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-              </div>
-
-
-
-              <div className="flex flex-row gap-2 w-full">
-
                 <FormField
                   control={form.control}
                   name="citizenship"
                   render={({ field }) => (
                     <FormItem className="w-1/2">
-                      <FormLabel>Citizenship</FormLabel>
+                      <FormLabel>{t("citizenship")}</FormLabel>
                       <FormControl>
-                        <Input placeholder="citizenship" {...field} />
+                        <Input placeholder={t("citizenship")} {...field} />
                       </FormControl>
                       <FormDescription />
                       <FormMessage />
@@ -124,9 +119,9 @@ export const UpdateAliasDialogForm = ({
                 />
               </div>
 
-              <DialogFooter>
+              <DialogFooter className="pt-4">
                 <DialogClose asChild>
-                  <Button type="submit">Save changes</Button>
+                  <Button type="submit">{t("add")}</Button>
                 </DialogClose>
               </DialogFooter>
 
