@@ -1,5 +1,4 @@
 import { PersonType } from "@/lib/types/PersonType";
-import { AliasCard } from "./alias-card";
 import { Separator } from "..";
 import { ImageIcon, X } from "lucide-react";
 import { PersonForm } from "./forms/person-form";
@@ -9,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { PseudonymView } from "./pseudonym-view";
 import { PseudonymDialogForm } from "./forms/pseudonym-dialog-form";
 import { CreateAliasDialogForm } from "./forms/create-alias-dialog-form";
+import { AliasCard } from "./alias-card-view";
 
 interface PersonViewProps {
   person: PersonType;

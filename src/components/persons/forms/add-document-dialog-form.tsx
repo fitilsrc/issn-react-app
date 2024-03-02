@@ -49,6 +49,7 @@ export const AddDocumentDialogForm = ({
       aliasId: parseInt(aliasId.toString())
     } as unknown as DocumentType)
     onPersonUpdate?.();
+    form.reset();
   };
 
   return (

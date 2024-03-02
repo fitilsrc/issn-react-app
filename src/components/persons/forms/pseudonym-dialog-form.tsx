@@ -33,6 +33,7 @@ export const PseudonymDialogForm = ({ onPersonUpdate }: PseudonymDialogFormProps
   async function onSubmit(values: z.infer<typeof formSchema>) {
     personId && await addPseudonym(parseInt(personId), values.title);
     onPersonUpdate?.();
+    form.reset();
   };
 
   return (
