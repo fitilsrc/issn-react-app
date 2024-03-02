@@ -2,15 +2,19 @@ import { PseudonymType } from '@/lib/types';
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
 import { X } from 'lucide-react';
+import { usePerson } from '@/lib/hooks';
 
 interface PseudonymViewProps {
   pseudonyms?: PseudonymType[];
+  onPersonUpdate?: () => void;
 }
 
-export const PseudonymView = ({ pseudonyms }: PseudonymViewProps) => {
+export const PseudonymView = ({ pseudonyms, onPersonUpdate }: PseudonymViewProps) => {
+  const { deletePseudonym } = usePerson();
 
-  const handleRemovePseudo = (id?: number) => {
-    console.log("[log] pseudonym id", id);
+  const handleRemovePseudo = async (id?: number) => {
+    id && await deletePseudonym(id);
+    onPersonUpdate?.();
   };
 
   return (

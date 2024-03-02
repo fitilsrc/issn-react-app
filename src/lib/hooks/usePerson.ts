@@ -6,8 +6,10 @@ import {
   CREATE_ALIAS_MUTATION,
   CREATE_DOCUMENT_MUTATION,
   CREATE_PERSON_MUTATION,
+  DELETE_ALIAS_MUTATION,
   DELETE_DOCUMENT_MUTATION,
   DELETE_PERSON_MUTATION,
+  DELETE_PSEUDONYM_MUTATION,
   UPDATE_ALIAS_MUTATION,
   UPDATE_DOCUMENT_MUTATION,
   UPDATE_PERSON_MUTATION
@@ -33,6 +35,8 @@ export function usePerson() {
   const [deleteDocumentMutation] = useMutation(DELETE_DOCUMENT_MUTATION);
   const [deletePersonMutation] = useMutation(DELETE_PERSON_MUTATION);
   const [updatePersonMutation] = useMutation(UPDATE_PERSON_MUTATION);
+  const [deleteAliasMutation] = useMutation(DELETE_ALIAS_MUTATION);
+  const [deletePseudonymMutation] = useMutation(DELETE_PSEUDONYM_MUTATION);
 
   const addPseudonym = async (personId: number, title: string) => {
     addPseudonymMutation({
@@ -47,6 +51,22 @@ export function usePerson() {
           title: t("add_pseudonym_toast_title"),
           description: "",
         });
+      }
+    })
+  }
+
+  const deletePseudonym = async (pseudonymId: number) => {
+    deletePseudonymMutation({
+      variables: {
+        pseudonymId: parseInt(pseudonymId.toString())
+      },
+      onCompleted: (data) => {
+        toast({
+          variant: "default",
+          title: data.deletePseudonym.status === StatusType.ERROR ? t("error_toast_title") : "Pseudonym successfully deleted",
+          description: data.deletePseudonym.status === StatusType.ERROR ? data.deletePseudonym.message : "",
+        });
+        refetchPersons();
       }
     })
   }
@@ -133,6 +153,22 @@ export function usePerson() {
     })
   }
 
+  const deleteAlias = async (aliasId: number) => {
+    deleteAliasMutation({
+      variables: {
+        aliasId: parseInt(aliasId.toString())
+      },
+      onCompleted: (data) => {
+        toast({
+          variant: "default",
+          title: data.deleteAlias.status === StatusType.ERROR ? t("error_toast_title") : "Alias successfully deleted",
+          description: data.deleteAlias.status === StatusType.ERROR ? data.deleteAlias.message : "",
+        });
+        refetchPersons();
+      }
+    })
+  }
+
   const updateDocument = async (document: DocumentType) => {
     updateDocumentMutation({
       variables: {
@@ -180,5 +216,17 @@ export function usePerson() {
     })
   }
 
-  return { updateAlias, createAlias, addPerson, addPseudonym, updateDocument, createDocument, deleteDocument, deletePerson, updatePerson }
+  return {
+    updateAlias,
+    createAlias,
+    addPerson,
+    addPseudonym,
+    updateDocument,
+    createDocument,
+    deleteDocument,
+    deletePerson,
+    updatePerson,
+    deleteAlias,
+    deletePseudonym
+  }
 }
