@@ -54,8 +54,8 @@ export const PersonForm = ({ person }: PersonFormProps) => {
       gender: person.gender ?? "",
       religion: person.religion ?? "",
       ideology: person.ideology ?? "",
-      birthday: new Date(person.birthday ?? ""),
-      deathday: new Date(person.deathday ?? ""),
+      birthday: !person.birthday ? undefined : new Date(person.birthday ?? ""),
+      deathday: !person.deathday ? undefined : new Date(person.deathday ?? ""),
     },
   });
 
