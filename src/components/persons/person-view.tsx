@@ -51,7 +51,7 @@ export const PersonView = ({ person, onPersonUpdate }: PersonViewProps) => {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <PseudonymView pseudonyms={pseudonyms} />
+              <PseudonymView pseudonyms={pseudonyms} onPersonUpdate={onPersonUpdate}/>
             </CardContent>
           </Card>
 

@@ -11,3 +11,5 @@ export * from './delete-document-mutation';
 export * from './get-persons-query';
 export * from './delete-person-mutation';
 export * from './update-person-mutation';
+export * from './delete-pseudonym-mutation';
+export * from './delete-alias-mutation';

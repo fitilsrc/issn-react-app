@@ -13,6 +13,7 @@ import { UpdateAliasDialogForm } from "./update-alias-dialog-form";
 import { useTranslation } from "react-i18next";
 import { DocumentsTable } from "./documents-table";
 import { AddDocumentDialogForm } from "./forms/add-document-dialog-form";
+import { usePerson } from "@/lib/hooks";
 
 interface AliasCardProps {
   alias: AliasType;
@@ -21,6 +22,12 @@ interface AliasCardProps {
 
 export const AliasCard = ({ alias, onPersonUpdate }: AliasCardProps) => {
   const { t } = useTranslation();
+  const { deleteAlias } = usePerson();
+
+  const handleDelete = async () => {
+    alias.id && await deleteAlias(alias.id);
+    onPersonUpdate?.();
+  }
 
   return (
     <Card className="w-full h-full">
@@ -33,7 +40,7 @@ export const AliasCard = ({ alias, onPersonUpdate }: AliasCardProps) => {
               </div>
               <div className="flex gap-4 items-center">
                 <UpdateAliasDialogForm alias={alias} onPersonUpdate={onPersonUpdate}/>
-                <Button variant="destructive" size="icon">
+                <Button variant="destructive" size="icon" onClick={handleDelete}>
                   <Trash2 className="h-5 w-5" />
                 </Button>
               </div>
