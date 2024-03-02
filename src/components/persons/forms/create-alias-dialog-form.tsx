@@ -45,6 +45,7 @@ export const CreateAliasDialogForm = ({
       personId: parseInt(personId)
     });
     onPersonUpdate?.();
+    form.reset();
   };
 
   return (
