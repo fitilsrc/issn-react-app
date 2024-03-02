@@ -78,7 +78,7 @@ export const PersonView = ({ person, onPersonUpdate }: PersonViewProps) => {
             </CardContent>
           </Card>
 
-          <PersonForm person={person}/>
+          <PersonForm person={person} onPersonUpdate={onPersonUpdate}/>
         </div>
       </div>
     </div>

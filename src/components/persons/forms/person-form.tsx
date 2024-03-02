@@ -16,18 +16,18 @@ import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { useParams, useSearchParams } from "react-router-dom";
-import { useGetPerson, usePerson } from "@/lib/hooks";
+import { usePerson } from "@/lib/hooks";
 import { PersonType } from "@/lib/types";
 
 interface PersonFormProps {
   person: PersonType;
+  onPersonUpdate?: () => void;
 }
 
-export const PersonForm = ({ person }: PersonFormProps) => {
+export const PersonForm = ({ person, onPersonUpdate }: PersonFormProps) => {
   const { t } = useTranslation();
   const { updatePerson } = usePerson();
   const { personId } = useParams();
-  const { refetchPerson } = useGetPerson(parseInt(personId?.toString() ?? ""));
   const [isDeathPopover, setDeathPopover] = useState(false);
   const [isBirthPopover, setBirthPopover] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -65,7 +65,7 @@ export const PersonForm = ({ person }: PersonFormProps) => {
       ...values,
       id: parseInt(personId?.toString() ?? "")
     });
-    refetchPerson();
+    onPersonUpdate?.();
   };
 
   return (
