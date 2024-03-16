@@ -3,3 +3,4 @@ export * from './ui/toaster';
 export * from './ui/loader';
 
 export * from './side-navigation-bar';
+export * from './file-upload-dialog';

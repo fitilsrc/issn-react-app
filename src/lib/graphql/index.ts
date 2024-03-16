@@ -13,3 +13,4 @@ export * from './delete-person-mutation';
 export * from './update-person-mutation';
 export * from './delete-pseudonym-mutation';
 export * from './delete-alias-mutation';
+export * from './get-presigned-upload-urls-query';

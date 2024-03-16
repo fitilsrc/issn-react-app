@@ -4,3 +4,4 @@ export * from './TokensType';
 export * from './UserRolesType';
 export * from './UserType';
 export * from './LocalsType';
+export * from './PresignedUploadUrlType';

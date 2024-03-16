@@ -1,6 +1,5 @@
 import { PersonType } from "@/lib/types/PersonType";
-import { Separator } from "..";
-import { ImageIcon, X } from "lucide-react";
+import { FileUploadDialog, Separator } from "..";
 import { PersonForm } from "./forms/person-form";
 import { useTranslation } from "react-i18next";
 import { AspectRatio } from "../ui/aspect-ratio";
@@ -35,7 +34,7 @@ export const PersonView = ({ person, onPersonUpdate }: PersonViewProps) => {
             ratio={3 / 4}
             className="bg-muted flex justify-center items-center"
           >
-            <ImageIcon className="self-center w-8 h-8" />
+            <FileUploadDialog />
           </AspectRatio>
         </div>
 
