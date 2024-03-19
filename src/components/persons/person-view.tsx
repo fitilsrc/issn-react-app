@@ -10,6 +10,7 @@ import { CreateAliasDialogForm } from "./forms/create-alias-dialog-form";
 import { AliasCard } from "./alias-card-view";
 import { useFileObject } from "@/lib/hooks/useFileObject";
 import { useEffect } from "react";
+import { DeleteDialog } from "../delete-dialog";
 
 interface PersonViewProps {
   person: PersonType;
@@ -18,7 +19,7 @@ interface PersonViewProps {
 
 export const PersonView = ({ person, onPersonUpdate }: PersonViewProps) => {
   const { t } = useTranslation();
-  const { getBundleOfPresignedUrls, presignedUrls } = useFileObject();
+  const { getBundleOfPresignedUrls, presignedUrls, deleteFile } = useFileObject();
   const { pseudonyms, aliases, photos } = person;
 
   useEffect(() => {
@@ -33,19 +34,21 @@ export const PersonView = ({ person, onPersonUpdate }: PersonViewProps) => {
       </div>
       <Separator className="mt-4" />
 
-
       <div className="flex gap-6 w-full justify-start items-start">
         <div className="flex justify-center items-center w-full pr-6 pb-6 lg:w-1/3 lg:pr-0">
           <AspectRatio
             ratio={3 / 4}
-            className="bg-muted flex justify-center items-center overflow-hidden"
+            className="bg-muted flex justify-center items-center overflow-hidden relative"
           >
             {
               presignedUrls.length > 0 ? (
-                <img
-                  src={`${presignedUrls.slice(-1)[0]?.url}`}
-                  className="object-fill"
-                />
+                <>
+                  <img
+                    src={`${presignedUrls.slice(-1)[0]?.url}`}
+                    className="object-fill"
+                  />
+                  <DeleteDialog onConfirmHandle={() => deleteFile(presignedUrls.slice(-1)[0]?.filename)} />
+                </>
               ):(
                 <FileUploadDialog onPersonUpdate={onPersonUpdate}/>
               )

@@ -79,6 +79,7 @@ export const FileUploadDialog = ({ onPersonUpdate }: FileUploadDialogProps) => {
                       <Input
                         type="file"
                         accept="image/*"
+                        multiple
                         className={cn(
                           "inline-block leading-7 hover:cursor-pointer file:hidden pl-10",
                         )}
