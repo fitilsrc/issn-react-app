@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { Button } from "./ui/button";
-import { UploadCloud } from "lucide-react";
+import { Folder, UploadCloud } from "lucide-react";
 import {
   Dialog,
   DialogClose,
@@ -17,6 +17,12 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "./ui/form";
 import { Input } from "./ui/input";
 import { useFileObject } from "@/lib/hooks/useFileObject";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
+
+interface FileUploadDialogProps {
+  onPersonUpdate?: () => void;
+}
 
 const formSchema = z.object({
   files: z
@@ -24,8 +30,10 @@ const formSchema = z.object({
     .refine((files) => files.length > 0, `Required`),
 });
 
-export const FileUploadDialog = () => {
-  const { uploadFile } = useFileObject();
+export const FileUploadDialog = ({ onPersonUpdate }: FileUploadDialogProps) => {
+  const { t } = useTranslation();
+  const { personId } = useParams();
+  const { uploadFile, addPersonPhoto } = useFileObject();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -36,8 +44,14 @@ export const FileUploadDialog = () => {
   const fileRef = form.register("files");
 
   async function onSubmit(data: z.infer<typeof formSchema>) {
-    const res = await uploadFile(data.files);
-    if (res) form.reset();
+    await uploadFile(data.files);
+    personId && await addPersonPhoto({
+      filename: data.files[0].name,
+      bucket: "photo",
+      personId: parseInt(personId)
+    })
+    onPersonUpdate?.();
+    form.reset();
   }
 
   return (
@@ -49,7 +63,7 @@ export const FileUploadDialog = () => {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="mb-8">Upload your file here</DialogTitle>
+          <DialogTitle className="mb-8">{t("upload_your_file_here")}</DialogTitle>
           <DialogDescription></DialogDescription>
         </DialogHeader>
         <div>
@@ -59,13 +73,13 @@ export const FileUploadDialog = () => {
                 control={form.control}
                 name="files"
                 render={() => (
-                  <FormItem>
+                  <FormItem className="relative">
+                    <Folder className="text-muted-foreground absolute left-2 top-1/2 -translate-y-1/2 w-5 h-5"/>
                     <FormControl>
                       <Input
                         type="file"
                         className={cn(
-                          "inline-block leading-7 hover:cursor-pointer before:mr-3 before:text-muted-foreground before:w-fit file:hidden",
-                          `before:content-['${"test"}']`
+                          "inline-block leading-7 hover:cursor-pointer file:hidden pl-10 mt-0",
                         )}
                         {...fileRef}
                       />

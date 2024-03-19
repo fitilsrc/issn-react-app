@@ -8,6 +8,8 @@ import { PseudonymView } from "./pseudonym-view";
 import { PseudonymDialogForm } from "./forms/pseudonym-dialog-form";
 import { CreateAliasDialogForm } from "./forms/create-alias-dialog-form";
 import { AliasCard } from "./alias-card-view";
+import { useFileObject } from "@/lib/hooks/useFileObject";
+import { useEffect } from "react";
 
 interface PersonViewProps {
   person: PersonType;
@@ -16,9 +18,13 @@ interface PersonViewProps {
 
 export const PersonView = ({ person, onPersonUpdate }: PersonViewProps) => {
   const { t } = useTranslation();
-  const { pseudonyms, aliases } = person;
+  const { getBundleOfPresignedUrls, presignedUrls } = useFileObject();
+  const { pseudonyms, aliases, photos } = person;
 
-
+  useEffect(() => {
+    if (!photos) return;
+    getBundleOfPresignedUrls(photos ?? []);
+  }, [photos])
 
   return (
     <div className="flex flex-col gap-4">
@@ -32,9 +38,18 @@ export const PersonView = ({ person, onPersonUpdate }: PersonViewProps) => {
         <div className="flex justify-center items-center w-full pr-6 pb-6 lg:w-1/3 lg:pr-0">
           <AspectRatio
             ratio={3 / 4}
-            className="bg-muted flex justify-center items-center"
+            className="bg-muted flex justify-center items-center overflow-hidden"
           >
-            <FileUploadDialog />
+            {
+              presignedUrls.length > 0 ? (
+                <img
+                  src={`${presignedUrls.slice(-1)[0]?.url}`}
+                  className="object-fill"
+                />
+              ):(
+                <FileUploadDialog onPersonUpdate={onPersonUpdate}/>
+              )
+            }
           </AspectRatio>
         </div>
 

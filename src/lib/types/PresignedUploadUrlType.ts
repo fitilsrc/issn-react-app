@@ -1,4 +1,4 @@
-export type PresignedUploadUrlType = {
+export type PresignedUrlType = {
   filename: string;
   url: string;
 }

@@ -54,12 +54,13 @@ export const GET_PERSON_BY_ID_QUERY = gql`
           aliasId
         }
       }
-      files {
+      photos {
         id
         createdAt
         updatedAt
         createdBy
         updatedBy
+        filename
         uri
         personId
       }
