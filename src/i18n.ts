@@ -57,6 +57,8 @@ const resources = {
       "no-info": "There is no information",
       "save": "Save",
       "cancel": "Cancel",
+      "choose_file": "Choose file",
+      "upload_your_file_here": "Upload your file here",
     }
   },
   [LocalsType.UA]: {
@@ -113,6 +115,8 @@ const resources = {
       "no-info": "Інформація відсутня",
       "save": "Зберегти",
       "cancel": "Скасувати",
+      "choose_file": "Оберіть файл",
+      "upload_your_file_here": "Завантажте свій файл тут",
     }
   }
 };
