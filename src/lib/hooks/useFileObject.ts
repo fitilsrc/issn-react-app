@@ -16,6 +16,10 @@ export function useFileObject() {
   const [addPersonPhotoMutation] = useMutation(ADD_PERSON_PHOTO_MUTATION);
   const [generateBundleOfPresignedUrlsMutation] = useMutation(GET_BUNDLE_OF_PRESIGNED_URLS_MUTATION);
 
+  /**
+   * Add photo to person entity
+   * @param file
+   */
   const addPersonPhoto = async (file: FileType) => {
     addPersonPhotoMutation({
       variables: {
@@ -25,6 +29,20 @@ export function useFileObject() {
     })
   }
 
+  /**
+   * Delete file from s3 server
+   * @param filename
+   */
+  const deleteFile = async (filename: string) => {
+    // to do delete file from bucket
+    console.log('[log] delete', filename)
+  }
+
+  /**
+   * Upload bundle of files to s3 server
+   * @param fileList
+   * @returns Promise<string[]>
+   */
   const uploadFile = async (fileList: FileList): Promise<string[]> => {
     const filenames = [...fileList].map(file => file.name);
     const { data, errors } = await generateUploadUrls({
@@ -51,7 +69,7 @@ export function useFileObject() {
           headers: {
             "Content-Type": file.type
           },
-          body: file
+          body: file,
         })
         if (result.ok) {
           const { data } = await generateFileUrl({
@@ -65,6 +83,10 @@ export function useFileObject() {
     return presignedUrls;
   }
 
+  /**
+   * Generate bundle of presigned urls
+   * @param files
+   */
   const getBundleOfPresignedUrls = async (files: FileType[]) => {
     const filenames = files.map(file => file.filename);
     await generateBundleOfPresignedUrlsMutation({
@@ -75,5 +97,5 @@ export function useFileObject() {
     })
   }
 
-  return { uploadFile, addPersonPhoto, getBundleOfPresignedUrls, presignedUrls }
+  return { uploadFile, deleteFile, addPersonPhoto, getBundleOfPresignedUrls, presignedUrls }
 }
