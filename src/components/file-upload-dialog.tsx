@@ -74,12 +74,13 @@ export const FileUploadDialog = ({ onPersonUpdate }: FileUploadDialogProps) => {
                 name="files"
                 render={() => (
                   <FormItem className="relative">
-                    <Folder className="text-muted-foreground absolute left-2 top-1/2 -translate-y-1/2 w-5 h-5"/>
+                    <Folder className="text-muted-foreground absolute left-2 bottom-2 w-5 h-5"/>
                     <FormControl>
                       <Input
                         type="file"
+                        accept="image/*"
                         className={cn(
-                          "inline-block leading-7 hover:cursor-pointer file:hidden pl-10 mt-0",
+                          "inline-block leading-7 hover:cursor-pointer file:hidden pl-10",
                         )}
                         {...fileRef}
                       />
