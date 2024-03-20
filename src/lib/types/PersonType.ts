@@ -65,6 +65,7 @@ export type FileType = {
   updatedBy?: string;
   filename?: string;
   bucket?: string;
+  mime?: string;
   url?: string;
   personId: number;
 }

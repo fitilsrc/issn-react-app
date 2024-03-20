@@ -5,6 +5,7 @@ export const ADD_PERSON_PHOTO_MUTATION = gql`
     $createdBy: String
     $filename: String
     $bucket: String
+    $mime: String
     $personId: Float!
   ) {
     addPersonPhoto(
@@ -12,6 +13,7 @@ export const ADD_PERSON_PHOTO_MUTATION = gql`
         createdBy: $createdBy
         filename: $filename
         bucket: $bucket
+        mime: $mime
         personId: $personId
       }
     ) {

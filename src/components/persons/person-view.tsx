@@ -11,6 +11,7 @@ import { AliasCard } from "./alias-card-view";
 import { useFileObject } from "@/lib/hooks/useFileObject";
 import { useEffect } from "react";
 import { DeleteDialog } from "../delete-dialog";
+import { MediaCarousel } from "../media-carousel";
 
 interface PersonViewProps {
   person: PersonType;
@@ -19,22 +20,7 @@ interface PersonViewProps {
 
 export const PersonView = ({ person, onPersonUpdate }: PersonViewProps) => {
   const { t } = useTranslation();
-  const { getBundleOfPresignedUrls, presignedUrls, deleteFileObjects, deleteMediaRelatedToPerson } = useFileObject();
   const { pseudonyms, aliases, photos } = person;
-
-  useEffect(() => {
-    if (!photos) return;
-    getBundleOfPresignedUrls(photos ?? []);
-  }, [photos])
-
-  const handleConfirm = () => {
-    const filenames = [presignedUrls.slice(-1)[0]?.filename];
-    const mediaId = photos?.slice(-1)[0]?.id
-
-    deleteFileObjects(filenames, "photo");
-    mediaId && deleteMediaRelatedToPerson(mediaId);
-    onPersonUpdate?.();
-  }
 
   return (
     <div className="flex flex-col gap-4">
@@ -44,25 +30,8 @@ export const PersonView = ({ person, onPersonUpdate }: PersonViewProps) => {
       <Separator className="mt-4" />
 
       <div className="flex gap-6 w-full justify-start items-start">
-        <div className="flex justify-center items-center w-full pr-6 pb-6 lg:w-1/3 lg:pr-0">
-          <AspectRatio
-            ratio={3 / 4}
-            className="bg-muted flex justify-center items-center overflow-hidden relative"
-          >
-            {
-              presignedUrls.length > 0 ? (
-                <>
-                  <img
-                    src={`${presignedUrls.slice(-1)[0]?.url}`}
-                    className="object-fill"
-                  />
-                  <DeleteDialog onConfirmHandle={handleConfirm} />
-                </>
-              ):(
-                <FileUploadDialog onPersonUpdate={onPersonUpdate}/>
-              )
-            }
-          </AspectRatio>
+        <div className="flex flex-col justify-center items-center w-full pr-6 pb-6 lg:w-1/3 lg:pr-0">
+          <MediaCarousel onPersonUpdate={onPersonUpdate} media={photos ?? []}/>
         </div>
 
         <div className="flex flex-col gap-4 lg:w-2/3">

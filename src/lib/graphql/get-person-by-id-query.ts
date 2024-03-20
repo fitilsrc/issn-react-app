@@ -61,7 +61,8 @@ export const GET_PERSON_BY_ID_QUERY = gql`
         createdBy
         updatedBy
         filename
-        uri
+        bucket
+        mime
         personId
       }
     }
