@@ -45,9 +45,11 @@ export const FileUploadDialog = ({ onPersonUpdate }: FileUploadDialogProps) => {
 
   async function onSubmit(data: z.infer<typeof formSchema>) {
     await uploadFile(data.files);
+    console.log(data.files)
     personId && await addPersonPhoto({
       filename: data.files[0].name,
       bucket: "photo",
+      mime: data.files[0].type,
       personId: parseInt(personId)
     })
     onPersonUpdate?.();
