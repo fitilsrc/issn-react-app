@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { Button } from "./ui/button";
+import { Button, ButtonProps } from "./ui/button";
 import { Folder, UploadCloud } from "lucide-react";
 import {
   Dialog,
@@ -22,6 +22,7 @@ import { useParams } from "react-router-dom";
 
 interface FileUploadDialogProps {
   onPersonUpdate?: () => void;
+  buttonProps?: ButtonProps;
 }
 
 const formSchema = z.object({
@@ -30,7 +31,7 @@ const formSchema = z.object({
     .refine((files) => files.length > 0, `Required`),
 });
 
-export const FileUploadDialog = ({ onPersonUpdate }: FileUploadDialogProps) => {
+export const FileUploadDialog = ({ onPersonUpdate, buttonProps }: FileUploadDialogProps) => {
   const { t } = useTranslation();
   const { personId } = useParams();
   const { uploadFile, addPersonPhoto } = useFileObject();
@@ -59,8 +60,8 @@ export const FileUploadDialog = ({ onPersonUpdate }: FileUploadDialogProps) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="ghost" size="default" className="h-full w-full">
-          <UploadCloud className="w-8 h-8" />
+        <Button {...buttonProps}>
+          <UploadCloud className="w-5 h-5" />
         </Button>
       </DialogTrigger>
       <DialogContent>

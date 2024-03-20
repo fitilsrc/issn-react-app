@@ -1,4 +1,4 @@
-interface ImageViewProps {
+type ImageViewProps = {
   url: string;
 }
 

@@ -1,16 +1,13 @@
-import { useEffect, useState } from "react";
 import { FileType } from "@/lib/types";
-import { FileUploadDialog, ImageView, VideoView } from ".";
+import { FileUploadDialog } from ".";
 import { AspectRatio } from "./ui/aspect-ratio";
-import { useFileObject } from "@/lib/hooks/useFileObject";
-import { DeleteDialog } from "./delete-dialog";
-
-const views = {
-  image: ImageView,
-  video: VideoView,
-};
-
-type mime = "image" | "video";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselNext,
+  CarouselPrevious,
+} from "./ui/carousel";
+import { MediaList } from "./media-list";
 
 interface MediaCarouselProps {
   media: FileType[];
@@ -21,46 +18,45 @@ export const MediaCarousel = ({
   media,
   onPersonUpdate,
 }: MediaCarouselProps) => {
-  const {
-    getBundleOfPresignedUrls,
-    presignedUrls,
-    deleteFileObjects,
-    deleteMediaRelatedToPerson,
-  } = useFileObject();
-  const [current, setCurrent] = useState(media.length - 1);
-
-  useEffect(() => {
-    getBundleOfPresignedUrls(media);
-    setCurrent(media.length - 1);
-  }, [media]);
-
-  const viewtype = !media[current]?.mime
-    ? null
-    : media[current].mime?.split("/")[0];
-  const CurrentView = views[viewtype as mime];
-
-  const handleConfirm = () => {
-    const filenames = [presignedUrls[current]?.filename];
-    const mediaId = media[current]?.id;
-
-    deleteFileObjects(filenames, "photo");
-    mediaId && deleteMediaRelatedToPerson(mediaId);
-    onPersonUpdate?.();
-  };
-
   return (
-    <AspectRatio
-      ratio={3 / 4}
-      className="bg-muted flex justify-center items-center overflow-hidden relative"
-    >
-      {!viewtype ? (
-        <FileUploadDialog onPersonUpdate={onPersonUpdate} />
+    <>
+      {!media.length ? (
+        <AspectRatio
+          ratio={3 / 4}
+          className="bg-muted flex justify-center items-center overflow-hidden relative w-full"
+        >
+          <FileUploadDialog
+            onPersonUpdate={onPersonUpdate}
+            buttonProps={{
+              variant: "ghost",
+              size: "default",
+              className: "w-full h-full",
+            }}
+          />
+        </AspectRatio>
       ) : (
-        <>
-          <CurrentView url={presignedUrls[current]?.url} />
-          <DeleteDialog onConfirmHandle={handleConfirm} />
-        </>
+        <Carousel
+          opts={{
+            startIndex: media.length - 1,
+          }}
+          className="w-full flex flex-col gap-4"
+        >
+          <CarouselContent>
+            <MediaList media={media} onPersonUpdate={onPersonUpdate} />
+          </CarouselContent>
+
+          <FileUploadDialog onPersonUpdate={onPersonUpdate} buttonProps={{
+            variant: "outline",
+            size: "icon",
+            className: "rounded-full absolute top-2 left-2"
+          }}/>
+
+          <div className="flex gap-4 justify-center">
+            <CarouselPrevious />
+            <CarouselNext />
+          </div>
+        </Carousel>
       )}
-    </AspectRatio>
+    </>
   );
 };
