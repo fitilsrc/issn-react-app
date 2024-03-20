@@ -19,13 +19,22 @@ interface PersonViewProps {
 
 export const PersonView = ({ person, onPersonUpdate }: PersonViewProps) => {
   const { t } = useTranslation();
-  const { getBundleOfPresignedUrls, presignedUrls, deleteFile } = useFileObject();
+  const { getBundleOfPresignedUrls, presignedUrls, deleteFileObjects, deleteMediaRelatedToPerson } = useFileObject();
   const { pseudonyms, aliases, photos } = person;
 
   useEffect(() => {
     if (!photos) return;
     getBundleOfPresignedUrls(photos ?? []);
   }, [photos])
+
+  const handleConfirm = () => {
+    const filenames = [presignedUrls.slice(-1)[0]?.filename];
+    const mediaId = photos?.slice(-1)[0]?.id
+
+    deleteFileObjects(filenames, "photo");
+    mediaId && deleteMediaRelatedToPerson(mediaId);
+    onPersonUpdate?.();
+  }
 
   return (
     <div className="flex flex-col gap-4">
@@ -47,7 +56,7 @@ export const PersonView = ({ person, onPersonUpdate }: PersonViewProps) => {
                     src={`${presignedUrls.slice(-1)[0]?.url}`}
                     className="object-fill"
                   />
-                  <DeleteDialog onConfirmHandle={() => deleteFile(presignedUrls.slice(-1)[0]?.filename)} />
+                  <DeleteDialog onConfirmHandle={handleConfirm} />
                 </>
               ):(
                 <FileUploadDialog onPersonUpdate={onPersonUpdate}/>

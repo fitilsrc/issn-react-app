@@ -17,3 +17,5 @@ export * from './get-presigned-upload-urls-mutation';
 export * from './get-presigned-url-mutation';
 export * from './add-photo-mutation';
 export * from './get-bundle-of-presigned-urls-mutation';
+export * from './delete-file-objects-mutation';
+export * from './delete-media-related-to-person-mutation';

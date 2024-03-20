@@ -1,7 +1,14 @@
 import { useMutation } from "@apollo/client";
 import { useToast } from "@/components/ui/use-toast";
 import { FileType, PresignedUrlType } from "../types";
-import { ADD_PERSON_PHOTO_MUTATION, GET_BUNDLE_OF_PRESIGNED_URLS_MUTATION, GET_PRESIGNED_UPLOAD_URLS_MUTATION, GET_PRESIGNED_URL_MUTATION } from "../graphql";
+import {
+  ADD_PERSON_PHOTO_MUTATION,
+  DELETE_FILE_OBJECTS_MUTATION,
+  DELETE_MEDIA_RELATED_TO_PERSON_MUTATION,
+  GET_BUNDLE_OF_PRESIGNED_URLS_MUTATION,
+  GET_PRESIGNED_UPLOAD_URLS_MUTATION,
+  GET_PRESIGNED_URL_MUTATION
+} from "../graphql";
 import { useIssnContext } from "./useIssnContext";
 import { useState } from "react";
 
@@ -15,9 +22,11 @@ export function useFileObject() {
   const [generateFileUrl] = useMutation(GET_PRESIGNED_URL_MUTATION);
   const [addPersonPhotoMutation] = useMutation(ADD_PERSON_PHOTO_MUTATION);
   const [generateBundleOfPresignedUrlsMutation] = useMutation(GET_BUNDLE_OF_PRESIGNED_URLS_MUTATION);
+  const [deleteFileObjectsMutation] = useMutation(DELETE_FILE_OBJECTS_MUTATION);
+  const [deleteMediaRelatedToPersonMutation] = useMutation(DELETE_MEDIA_RELATED_TO_PERSON_MUTATION);
 
   /**
-   * Add photo to person entity
+   * Add photo relation to person entity
    * @param file
    */
   const addPersonPhoto = async (file: FileType) => {
@@ -33,9 +42,25 @@ export function useFileObject() {
    * Delete file from s3 server
    * @param filename
    */
-  const deleteFile = async (filename: string) => {
-    // to do delete file from bucket
-    console.log('[log] delete', filename)
+  const deleteFileObjects = async (filenames: string[], bucket: string) => {
+    await deleteFileObjectsMutation({
+      variables: {
+        filenames,
+        bucket
+      }
+    });
+  }
+
+  /**
+   * Delete media object related to person entity
+   * @param mediaId
+   */
+  const deleteMediaRelatedToPerson = async (mediaId: number) => {
+    await deleteMediaRelatedToPersonMutation({
+      variables: {
+        mediaId: parseInt(mediaId.toString())
+      }
+    })
   }
 
   /**
@@ -97,5 +122,5 @@ export function useFileObject() {
     })
   }
 
-  return { uploadFile, deleteFile, addPersonPhoto, getBundleOfPresignedUrls, presignedUrls }
+  return { uploadFile, deleteFileObjects, deleteMediaRelatedToPerson, addPersonPhoto, getBundleOfPresignedUrls, presignedUrls }
 }
