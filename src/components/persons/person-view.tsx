@@ -1,17 +1,13 @@
 import { PersonType } from "@/lib/types/PersonType";
-import { FileUploadDialog, Separator } from "..";
+import { Separator } from "..";
 import { PersonForm } from "./forms/person-form";
 import { useTranslation } from "react-i18next";
-import { AspectRatio } from "../ui/aspect-ratio";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { PseudonymView } from "./pseudonym-view";
 import { PseudonymDialogForm } from "./forms/pseudonym-dialog-form";
 import { CreateAliasDialogForm } from "./forms/create-alias-dialog-form";
 import { AliasCard } from "./alias-card-view";
-import { useFileObject } from "@/lib/hooks/useFileObject";
-import { useEffect } from "react";
-import { DeleteDialog } from "../delete-dialog";
-import { MediaCarousel } from "../media-carousel";
+import { MediaCarousel } from "../media/media-carousel";
 
 interface PersonViewProps {
   person: PersonType;

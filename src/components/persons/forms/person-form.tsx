@@ -91,7 +91,7 @@ export const PersonForm = ({ person, onPersonUpdate }: PersonFormProps) => {
                     <h3>{t("information")}</h3>
                     <FormControl>
                       {searchParams.get("mode")==="plain" ? (
-                        <Badge className="w-full px-4 py-4 text-center" variant="secondary">
+                        <Badge className="w-full px-4 py-4 text-justify" variant="secondary">
                           {!field.value ? t("no-info") : field.value}
                         </Badge>
                       ):(
@@ -116,7 +116,7 @@ export const PersonForm = ({ person, onPersonUpdate }: PersonFormProps) => {
                     <h3>{t("signs")}</h3>
                     <FormControl>
                       {searchParams.get("mode")==="plain" ? (
-                        <Badge className="w-full px-4 py-4 text-center" variant="secondary">
+                        <Badge className="w-full px-4 py-4 text-justify" variant="secondary">
                           {!field.value ? t("no-info") : field.value}
                         </Badge>
                       ):(
@@ -141,7 +141,7 @@ export const PersonForm = ({ person, onPersonUpdate }: PersonFormProps) => {
                     <FormItem className="w-1/2 flex flex-col">
                       <h3>{t("date_of_birth")}</h3>
                       {searchParams.get("mode")==="plain" ? (
-                        <Badge className="w-full px-4 py-4 text-center" variant="secondary">
+                        <Badge className="w-full px-4 py-4 text-justify" variant="secondary">
                           {!field.value ? t("no-info") : new Date(field.value).toLocaleDateString()}
                         </Badge>
                       ) : (
@@ -197,7 +197,7 @@ export const PersonForm = ({ person, onPersonUpdate }: PersonFormProps) => {
                     <FormItem className="w-1/2 flex flex-col">
                       <h3>{t("date_of_death")}</h3>
                       {searchParams.get("mode")==="plain" ? (
-                        <Badge className="w-full px-4 py-4 text-center" variant="secondary">
+                        <Badge className="w-full px-4 py-4 text-justify" variant="secondary">
                           {!field.value ? t("no-info") : new Date(field.value).toLocaleDateString()}
                         </Badge>
                       ) : (
@@ -255,7 +255,7 @@ export const PersonForm = ({ person, onPersonUpdate }: PersonFormProps) => {
                     <FormItem className="w-1/2 flex flex-col">
                       <h3>{t("gender")}</h3>
                       {searchParams.get("mode")==="plain" ? (
-                        <Badge className="w-full px-4 py-4 text-center" variant="secondary">
+                        <Badge className="w-full px-4 py-4 text-justify" variant="secondary">
                           {!field.value ? t("no-info") : field.value}
                         </Badge>
                       ) : (
@@ -276,7 +276,7 @@ export const PersonForm = ({ person, onPersonUpdate }: PersonFormProps) => {
                     <FormItem className="w-1/2 flex flex-col">
                       <h3>{t("place_of_birth")}</h3>
                       {searchParams.get("mode")==="plain" ? (
-                        <Badge className="w-full px-4 py-4 text-center" variant="secondary">
+                        <Badge className="w-full px-4 py-4 text-justify" variant="secondary">
                           {!field.value ? t("no-info") : field.value}
                         </Badge>
                       ) : (
@@ -299,7 +299,7 @@ export const PersonForm = ({ person, onPersonUpdate }: PersonFormProps) => {
                     <FormItem className="w-1/2 flex flex-col">
                       <h3>{t("nationality")}</h3>
                       {searchParams.get("mode")==="plain" ? (
-                        <Badge className="w-full px-4 py-4 text-center" variant="secondary">
+                        <Badge className="w-full px-4 py-4 text-justify" variant="secondary">
                           {!field.value ? t("no-info") : field.value}
                         </Badge>
                       ) : (
@@ -319,7 +319,7 @@ export const PersonForm = ({ person, onPersonUpdate }: PersonFormProps) => {
                     <FormItem className="w-1/2 flex flex-col">
                       <h3>{t("religion")}</h3>
                       {searchParams.get("mode")==="plain" ? (
-                        <Badge className="w-full px-4 py-4 text-center" variant="secondary">
+                        <Badge className="w-full px-4 py-4 text-justify" variant="secondary">
                           {!field.value ? t("no-info") : field.value}
                         </Badge>
                       ) : (

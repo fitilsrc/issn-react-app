@@ -1,5 +1,5 @@
 import { FileType } from "@/lib/types"
-import { ImageView, VideoView } from ".";
+import { ImageView, VideoView } from "..";
 
 const views = {
   image: ImageView,

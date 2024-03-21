@@ -1,13 +1,13 @@
-import { AliasType } from "@/lib/types/PersonType"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
+import { AliasType } from "@/lib/types/PersonType";
 import { useForm } from "react-hook-form";
-import { z } from "zod"
+import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
 import { EditIcon } from "lucide-react";
-import { Dialog, DialogClose, DialogContent, DialogFooter, DialogTrigger } from "../ui/dialog";
 import { usePerson } from "@/lib/hooks/usePerson";
+import { Dialog, DialogClose, DialogContent, DialogFooter, DialogTrigger } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 
 interface UpdateAliasFormProps {
   alias?: AliasType;
@@ -87,6 +87,7 @@ export const UpdateAliasDialogForm = ({
                   )}
                 />
               </div>
+
               <div className="flex flex-row gap-2 w-full">
                 <FormField
                   control={form.control}
@@ -104,10 +105,7 @@ export const UpdateAliasDialogForm = ({
                 />
               </div>
 
-
-
               <div className="flex flex-row gap-2 w-full">
-
                 <FormField
                   control={form.control}
                   name="citizenship"

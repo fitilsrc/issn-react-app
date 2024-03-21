@@ -1,8 +1,10 @@
+import { Loader } from "@/components";
 import { PersonView } from "@/components/persons/person-view";
 import { useGetPerson } from "@/lib/hooks";
 import { useParams } from "react-router";
+import { Error } from "@/components";
 
-const Person = () => {
+const PersonPage = () => {
   const { personId } = useParams();
 
   const {
@@ -12,12 +14,12 @@ const Person = () => {
     loading,
   } = useGetPerson(parseInt(personId?.toString() ?? ""));
 
-  if (loading) return null;
-  if (error) return `Error! ${error}`;
+  if (loading) return <Loader />;
+  if (error) return <Error />;
 
   return (
     <PersonView person={person.getPersonById} onPersonUpdate={refetchPerson} />
   );
 };
 
-export default Person;
+export default PersonPage;

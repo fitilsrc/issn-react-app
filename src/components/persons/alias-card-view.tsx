@@ -9,11 +9,11 @@ import {
 } from "../ui/card";
 import { Button } from "../ui/button";
 import { Trash2 } from "lucide-react";
-import { UpdateAliasDialogForm } from "./update-alias-dialog-form";
 import { useTranslation } from "react-i18next";
 import { DocumentsTable } from "./documents-table";
 import { AddDocumentDialogForm } from "./forms/add-document-dialog-form";
 import { usePerson } from "@/lib/hooks";
+import { UpdateAliasDialogForm } from "./forms/update-alias-dialog-form";
 
 interface AliasCardProps {
   alias: AliasType;

@@ -1,13 +1,8 @@
 import { FileType } from "@/lib/types";
-import { FileUploadDialog } from ".";
-import { AspectRatio } from "./ui/aspect-ratio";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselNext,
-  CarouselPrevious,
-} from "./ui/carousel";
 import { MediaList } from "./media-list";
+import { AspectRatio } from "../ui/aspect-ratio";
+import { FileUploadDialog } from "..";
+import { Carousel, CarouselContent, CarouselNext, CarouselPrevious } from "../ui/carousel";
 
 interface MediaCarouselProps {
   media: FileType[];
