@@ -8,6 +8,7 @@ export const GET_PERSON_BY_ID_QUERY = gql`
       personId: $personId
     ) {
       id
+      uuid
       createdAt
       updatedAt
       createdBy

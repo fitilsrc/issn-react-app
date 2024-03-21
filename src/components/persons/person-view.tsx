@@ -20,8 +20,9 @@ export const PersonView = ({ person, onPersonUpdate }: PersonViewProps) => {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex justify-between items-center">
-        <h2>Person, registration number # XO-000-000</h2>
+      <div className="flex flex-col justify-between items-start">
+        <h2>{`Person, id # ${person.id}`}</h2>
+        <h3 className="text-muted-foreground">{`registration number # ${person.uuid ?? t("not_added")}`}</h3>
       </div>
       <Separator className="mt-4" />
 

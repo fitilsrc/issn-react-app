@@ -1,5 +1,7 @@
 export type PersonType = {
   id?: number;
+  uuid?: string;
+
   createdAt?: Date;
   updatedAt?: Date;
   createdBy?: string;
