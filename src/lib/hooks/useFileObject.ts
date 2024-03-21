@@ -11,6 +11,7 @@ import {
 } from "../graphql";
 import { useIssnContext } from "./useIssnContext";
 import { useState } from "react";
+import { v4 as uuidv4 } from 'uuid';
 
 export function useFileObject() {
   const { toast } = useToast();
@@ -66,10 +67,10 @@ export function useFileObject() {
   /**
    * Upload bundle of files to s3 server
    * @param fileList
-   * @returns Promise<string[]>
+   * @returns Promise<PresignedUrlType[]>
    */
-  const uploadFile = async (fileList: FileList): Promise<string[]> => {
-    const filenames = [...fileList].map(file => file.name);
+  const uploadFile = async (fileList: FileList): Promise<PresignedUrlType[]> => {
+    const filenames = [...fileList].map(file => `${uuidv4()}_${file.name}`);
     const { data, errors } = await generateUploadUrls({
       variables: { filenames }
     });
@@ -84,9 +85,11 @@ export function useFileObject() {
       )
     }
 
-    const presignedUrls: string[] = [];
+    const presignedUrls: PresignedUrlType[] = [];
+    let index = 0;
     for (const file of fileList) {
-      const url = data.generateUploadUrls.find((item: PresignedUrlType) => item.filename === file.name)?.url;
+      const url = data.generateUploadUrls[index].url;
+      const filename = data.generateUploadUrls[index].filename;
 
       if (url) {
         const result = await fetch(url, {
@@ -98,11 +101,15 @@ export function useFileObject() {
         })
         if (result.ok) {
           const { data } = await generateFileUrl({
-            variables: { filename: file.name }
+            variables: { filename }
           });
-          presignedUrls.push(data.generateFileUrl.url);
+          presignedUrls.push({
+            filename,
+            url: data.generateFileUrl.url
+          });
         }
       }
+      index +=1;
     }
 
     return presignedUrls;

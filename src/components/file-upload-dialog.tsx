@@ -31,7 +31,10 @@ const formSchema = z.object({
     .refine((files) => files.length > 0, `Required`),
 });
 
-export const FileUploadDialog = ({ onPersonUpdate, buttonProps }: FileUploadDialogProps) => {
+export const FileUploadDialog = ({
+  onPersonUpdate,
+  buttonProps,
+}: FileUploadDialogProps) => {
   const { t } = useTranslation();
   const { personId } = useParams();
   const { uploadFile, addPersonPhoto } = useFileObject();
@@ -45,14 +48,14 @@ export const FileUploadDialog = ({ onPersonUpdate, buttonProps }: FileUploadDial
   const fileRef = form.register("files");
 
   async function onSubmit(data: z.infer<typeof formSchema>) {
-    await uploadFile(data.files);
-    console.log(data.files)
-    personId && await addPersonPhoto({
-      filename: data.files[0].name,
-      bucket: "photo",
-      mime: data.files[0].type,
-      personId: parseInt(personId)
-    })
+    const uploadedFiles = await uploadFile(data.files);
+    personId &&
+      (await addPersonPhoto({
+        filename: uploadedFiles[0].filename,
+        bucket: "photo",
+        mime: data.files[0].type,
+        personId: parseInt(personId),
+      }));
     onPersonUpdate?.();
     form.reset();
   }
@@ -66,7 +69,9 @@ export const FileUploadDialog = ({ onPersonUpdate, buttonProps }: FileUploadDial
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="mb-8">{t("upload_your_file_here")}</DialogTitle>
+          <DialogTitle className="mb-8">
+            {t("upload_your_file_here")}
+          </DialogTitle>
           <DialogDescription></DialogDescription>
         </DialogHeader>
         <div>
@@ -77,14 +82,14 @@ export const FileUploadDialog = ({ onPersonUpdate, buttonProps }: FileUploadDial
                 name="files"
                 render={() => (
                   <FormItem className="relative">
-                    <Folder className="text-muted-foreground absolute left-2 bottom-2 w-5 h-5"/>
+                    <Folder className="text-muted-foreground absolute left-2 bottom-2 w-5 h-5" />
                     <FormControl>
                       <Input
                         type="file"
                         accept="image/*"
                         multiple
                         className={cn(
-                          "inline-block leading-7 hover:cursor-pointer file:hidden pl-10",
+                          "inline-block leading-7 hover:cursor-pointer file:hidden pl-10"
                         )}
                         {...fileRef}
                       />
