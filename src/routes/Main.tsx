@@ -6,8 +6,8 @@ import { Route, Routes } from 'react-router-dom';
 
 const Dashboard = React.lazy(() => import('@/pages/Dashboard/Dashboard'));
 const Login = React.lazy(() => import('@/pages/Login/Login'));
-const Persons = React.lazy(() => import('@/pages/Persons/Persons'));
-const Person = React.lazy(() => import('@/pages/Person/Person'));
+const PersonsPage = React.lazy(() => import('@/pages/Persons/PersonsPage'));
+const PersonPage = React.lazy(() => import('@/pages/Person/PersonPage'));
 
 export const Main = () => {
   return (
@@ -17,8 +17,8 @@ export const Main = () => {
           <Route path="/login" element={<Login />} />
           <Route element={<SecuredRoute allovedRoles={[UserRoleType.ISSN_ADMIN]}/>}>
             <Route path="/" element={<Dashboard />} />
-            <Route path="/persons" element={<Persons />} />
-            <Route path="/person/:personId" element={<Person />} />
+            <Route path="/persons" element={<PersonsPage />} />
+            <Route path="/person/:personId" element={<PersonPage />} />
           </Route>
         </Route>
       </Routes>

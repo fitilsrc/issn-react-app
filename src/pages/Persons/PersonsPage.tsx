@@ -1,11 +1,12 @@
+import { Error, Loader } from "@/components";
 import { PersonsTable } from "@/components/persons/persons-table";
 import { useGetPersons } from "@/lib/hooks";
 
-const Persons = () => {
+const PersonsPage = () => {
   const {persons, loading, error} = useGetPersons();
 
-  if (loading) return null;
-  if (error) return `Error! ${error}`;
+  if (loading) return <Loader />;
+  if (error) return <Error />;
 
   return (
     <section className="flex py-6 gap-6">
@@ -14,4 +15,4 @@ const Persons = () => {
   );
 };
 
-export default Persons;
+export default PersonsPage;

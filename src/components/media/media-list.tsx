@@ -1,10 +1,10 @@
 import { FileType } from "@/lib/types";
-import { CarouselItem } from "./ui/carousel";
-import { AspectRatio } from "./ui/aspect-ratio";
 import { useFileObject } from "@/lib/hooks/useFileObject";
-import { DeleteDialog } from "./delete-dialog";
 import { useEffect } from "react";
 import { MediaCard } from "./media-card";
+import { CarouselItem } from "../ui/carousel";
+import { AspectRatio } from "../ui/aspect-ratio";
+import { DeleteDialog } from "../delete-dialog";
 
 type MediaListProps = {
   media: FileType[];
