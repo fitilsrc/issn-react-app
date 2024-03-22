@@ -19,6 +19,7 @@ import { useFileObject } from "@/lib/hooks/useFileObject";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
+import { FileType } from "@/lib/types";
 
 interface FileUploadDialogProps {
   onPersonUpdate?: () => void;
@@ -37,7 +38,7 @@ export const FileUploadDialog = ({
 }: FileUploadDialogProps) => {
   const { t } = useTranslation();
   const { personId } = useParams();
-  const { uploadFile, addPersonPhoto } = useFileObject();
+  const { uploadFile, addBundleMediaToPerson } = useFileObject();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -49,13 +50,15 @@ export const FileUploadDialog = ({
 
   async function onSubmit(data: z.infer<typeof formSchema>) {
     const uploadedFiles = await uploadFile(data.files);
-    personId &&
-      (await addPersonPhoto({
-        filename: uploadedFiles[0].filename,
-        bucket: "photo",
-        mime: data.files[0].type,
-        personId: parseInt(personId),
-      }));
+    if (!personId) return;
+    const preparedFiles: FileType[] = uploadedFiles.map((file, index) => ({
+      filename: file.filename,
+      bucket: "photo",
+      mime: data.files[index].type,
+      personId: parseInt(personId)
+    }));
+    await addBundleMediaToPerson(preparedFiles);
+
     onPersonUpdate?.();
     form.reset();
   }
