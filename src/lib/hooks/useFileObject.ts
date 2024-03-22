@@ -2,6 +2,7 @@ import { useMutation } from "@apollo/client";
 import { useToast } from "@/components/ui/use-toast";
 import { FileType, PresignedUrlType } from "../types";
 import {
+  ADD_BUNDLE_MEDIA_TO_PERSON_MUTATION,
   ADD_PERSON_PHOTO_MUTATION,
   DELETE_FILE_OBJECTS_MUTATION,
   DELETE_MEDIA_RELATED_TO_PERSON_MUTATION,
@@ -25,6 +26,7 @@ export function useFileObject() {
   const [generateBundleOfPresignedUrlsMutation] = useMutation(GET_BUNDLE_OF_PRESIGNED_URLS_MUTATION);
   const [deleteFileObjectsMutation] = useMutation(DELETE_FILE_OBJECTS_MUTATION);
   const [deleteMediaRelatedToPersonMutation] = useMutation(DELETE_MEDIA_RELATED_TO_PERSON_MUTATION);
+  const [addBundleMediaToPersonMutation] = useMutation(ADD_BUNDLE_MEDIA_TO_PERSON_MUTATION);
 
   /**
    * Add photo relation to person entity
@@ -35,6 +37,22 @@ export function useFileObject() {
       variables: {
         ...file,
         createdBy: state.user?.name,
+      }
+    })
+  }
+
+  /**
+   * Adds an array of media files for a person entity
+   * @param files
+   */
+  const addBundleMediaToPerson = async (files: FileType[]) => {
+    const preparedFiles = files.map(file => ({
+      ...file,
+      createdBy: state.user?.name,
+    }))
+    addBundleMediaToPersonMutation({
+      variables: {
+        media: preparedFiles
       }
     })
   }
@@ -129,5 +147,13 @@ export function useFileObject() {
     })
   }
 
-  return { uploadFile, deleteFileObjects, deleteMediaRelatedToPerson, addPersonPhoto, getBundleOfPresignedUrls, presignedUrls }
+  return {
+    uploadFile,
+    deleteFileObjects,
+    deleteMediaRelatedToPerson,
+    addPersonPhoto,
+    addBundleMediaToPerson,
+    getBundleOfPresignedUrls,
+    presignedUrls
+  }
 }

@@ -19,3 +19,4 @@ export * from './add-photo-mutation';
 export * from './get-bundle-of-presigned-urls-mutation';
 export * from './delete-file-objects-mutation';
 export * from './delete-media-related-to-person-mutation';
+export * from './add-bundle-media-mutation';

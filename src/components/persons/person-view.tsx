@@ -22,17 +22,19 @@ export const PersonView = ({ person, onPersonUpdate }: PersonViewProps) => {
     <div className="flex flex-col gap-4">
       <div className="flex flex-col justify-between items-start">
         <h2>{`Person, id # ${person.id}`}</h2>
-        <h3 className="text-muted-foreground">{`registration number # ${person.uuid ?? t("not_added")}`}</h3>
+        <h3 className="text-muted-foreground">{`registration number # ${
+            person.uuid ?? t("not_added")
+          }`}
+        </h3>
       </div>
       <Separator className="mt-4" />
 
       <div className="flex gap-6 w-full justify-start items-start">
         <div className="flex flex-col justify-center items-center w-full pr-6 pb-6 lg:w-1/3 lg:pr-0">
-          <MediaCarousel onPersonUpdate={onPersonUpdate} media={photos ?? []}/>
+          <MediaCarousel onPersonUpdate={onPersonUpdate} media={photos ?? []} />
         </div>
 
         <div className="flex flex-col gap-4 lg:w-2/3">
-
           <Card>
             <CardHeader>
               <CardTitle>
@@ -43,7 +45,10 @@ export const PersonView = ({ person, onPersonUpdate }: PersonViewProps) => {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <PseudonymView pseudonyms={pseudonyms} onPersonUpdate={onPersonUpdate}/>
+              <PseudonymView
+                pseudonyms={pseudonyms}
+                onPersonUpdate={onPersonUpdate}
+              />
             </CardContent>
           </Card>
 
@@ -65,12 +70,11 @@ export const PersonView = ({ person, onPersonUpdate }: PersonViewProps) => {
                   >
                     <AliasCard alias={alias} onPersonUpdate={onPersonUpdate} />
                   </div>
-                ))
-              }
+                ))}
             </CardContent>
           </Card>
 
-          <PersonForm person={person} onPersonUpdate={onPersonUpdate}/>
+          <PersonForm person={person} onPersonUpdate={onPersonUpdate} />
         </div>
       </div>
     </div>
