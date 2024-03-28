@@ -3,26 +3,29 @@ import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
 import { BrowserRouter } from 'react-router-dom';
-import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
 import './i18n.ts';
+import { TokensType } from './lib/types/TokensType.ts';
+import secureLocalStorage from 'react-secure-storage';
 
-// const httpLink = createHttpLink({
-//   uri: `${process.env.REACT_APP_API_URI}:${process.env.REACT_APP_API_PORT}/graphql`,
-//   credentials: 'same-origin',
-// });
+const httpLink = createHttpLink({
+  uri: `${import.meta.env.VITE_REACT_APP_API_URI}:${import.meta.env.VITE_REACT_APP_API_PORT}/graphql`,
+});
 
-// const authLink = setContext((_, { headers }) => {
-//   // const token = localStorage.getItem(AUTH_TOKEN);
-//   return {
-//     headers: {
-//       ...headers,
-//       // authorization: token ? `Bearer ${token}` : '',
-//     }
-//   }
-// })
+const authLink = setContext((_, { headers }) => {
+  const session = secureLocalStorage.getItem('session') as TokensType;
+  const token = session?.access_token;
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : "",
+    }
+  }
+})
 
 const client = new ApolloClient({
-  uri: `${import.meta.env.VITE_REACT_APP_API_URI}:${import.meta.env.VITE_REACT_APP_API_PORT}/graphql`,
+  link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
 
