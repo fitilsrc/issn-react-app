@@ -12,7 +12,6 @@ import {
 } from "../graphql";
 import { useIssnContext } from "./useIssnContext";
 import { useState } from "react";
-import { v4 as uuidv4 } from 'uuid';
 
 export function useFileObject() {
   const { toast } = useToast();
@@ -88,7 +87,7 @@ export function useFileObject() {
    * @returns Promise<PresignedUrlType[]>
    */
   const uploadFile = async (fileList: FileList): Promise<PresignedUrlType[]> => {
-    const filenames = [...fileList].map(file => `${uuidv4()}_${file.name}`);
+    const filenames = [...fileList].map(file => `${self.crypto.randomUUID()}_${file.name}`);
     const { data, errors } = await generateUploadUrls({
       variables: { filenames }
     });
