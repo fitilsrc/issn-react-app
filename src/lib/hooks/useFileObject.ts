@@ -20,7 +20,7 @@ export function useFileObject() {
   const [presignedUrls, setPresignedUrls] = useState<PresignedUrlType[]>([]);
 
   const [generateUploadUrls] = useMutation(GET_PRESIGNED_UPLOAD_URLS_MUTATION);
-  const [generateFileUrl] = useMutation(GET_PRESIGNED_URL_MUTATION);
+  const [generateFileUrlMutation] = useMutation(GET_PRESIGNED_URL_MUTATION);
   const [addPersonPhotoMutation] = useMutation(ADD_PERSON_PHOTO_MUTATION);
   const [generateBundleOfPresignedUrlsMutation] = useMutation(GET_BUNDLE_OF_PRESIGNED_URLS_MUTATION);
   const [deleteFileObjectsMutation] = useMutation(DELETE_FILE_OBJECTS_MUTATION);
@@ -108,6 +108,9 @@ export function useFileObject() {
       const url = data.generateUploadUrls[index].url;
       const filename = data.generateUploadUrls[index].filename;
 
+      // to do refactoring: move fetch to api actions
+      // rework the mutation generate file url for mass generation of urls
+
       if (url) {
         const result = await fetch(url, {
           method: "PUT",
@@ -117,7 +120,7 @@ export function useFileObject() {
           body: file,
         })
         if (result.ok) {
-          const { data } = await generateFileUrl({
+          const { data } = await generateFileUrlMutation({
             variables: { filename }
           });
           presignedUrls.push({
