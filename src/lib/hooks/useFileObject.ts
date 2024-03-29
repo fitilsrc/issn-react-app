@@ -81,7 +81,7 @@ export function useFileObject() {
    * @param fileList
    * @returns Promise<PresignedUrlType[]>
    */
-  const uploadFile = async (fileList: FileList): Promise<PresignedUrlType[]> => {
+  const uploadFile = async (fileList: FileList): Promise<string[]> => {
     const filenames = [...fileList].map(file => `${self.crypto.randomUUID()}_${file.name}`);
     const { data, errors } = await generateUploadUrls({
       variables: { filenames }
@@ -97,37 +97,22 @@ export function useFileObject() {
       )
     }
 
-    const presignedUrls: PresignedUrlType[] = [];
     let index = 0;
     for (const file of fileList) {
       const url = data.generateUploadUrls[index].url;
-      const filename = data.generateUploadUrls[index].filename;
-
-      // to do refactoring: move fetch to api actions
-      // rework the mutation generate file url for mass generation of urls
-
       if (url) {
-        const result = await fetch(url, {
+        await fetch(url, {
           method: "PUT",
           headers: {
             "Content-Type": file.type
           },
           body: file,
         })
-        if (result.ok) {
-          const { data } = await generateFileUrlMutation({
-            variables: { filename }
-          });
-          presignedUrls.push({
-            filename,
-            url: data.generateFileUrl.url
-          });
-        }
       }
       index += 1;
     }
 
-    return presignedUrls;
+    return filenames;
   }
 
   return {
