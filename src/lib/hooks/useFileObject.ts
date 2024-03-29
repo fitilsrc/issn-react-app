@@ -1,13 +1,12 @@
 import { useMutation } from "@apollo/client";
 import { useToast } from "@/components/ui/use-toast";
-import { FileType, PresignedUrlType } from "../types";
+import { FileType } from "../types";
 import {
   ADD_BUNDLE_MEDIA_TO_PERSON_MUTATION,
   ADD_PERSON_PHOTO_MUTATION,
   DELETE_FILE_OBJECTS_MUTATION,
   DELETE_MEDIA_RELATED_TO_PERSON_MUTATION,
   GET_PRESIGNED_UPLOAD_URLS_MUTATION,
-  GET_PRESIGNED_URL_MUTATION
 } from "../graphql";
 import { useIssnContext } from "./useIssnContext";
 
@@ -16,7 +15,6 @@ export function useFileObject() {
   const { state } = useIssnContext();
 
   const [generateUploadUrls] = useMutation(GET_PRESIGNED_UPLOAD_URLS_MUTATION);
-  const [generateFileUrlMutation] = useMutation(GET_PRESIGNED_URL_MUTATION);
   const [addPersonPhotoMutation] = useMutation(ADD_PERSON_PHOTO_MUTATION);
   const [deleteFileObjectsMutation] = useMutation(DELETE_FILE_OBJECTS_MUTATION);
   const [deleteMediaRelatedToPersonMutation] = useMutation(DELETE_MEDIA_RELATED_TO_PERSON_MUTATION);
@@ -79,7 +77,7 @@ export function useFileObject() {
   /**
    * Upload bundle of files to s3 server
    * @param fileList
-   * @returns Promise<PresignedUrlType[]>
+   * @returns Promise<string[]>
    */
   const uploadFile = async (fileList: FileList): Promise<string[]> => {
     const filenames = [...fileList].map(file => `${self.crypto.randomUUID()}_${file.name}`);
