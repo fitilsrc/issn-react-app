@@ -1,10 +1,10 @@
 import { gql } from "@apollo/client";
 
-export const GET_BUNDLE_OF_PRESIGNED_URLS_MUTATION = gql`
-  mutation GenerateBundleOfPresignedUrls(
+export const GET_BUNDLE_OF_PRESIGNED_URLS_QUERY = gql`
+  query GenerateBundleOfPresignedUrls(
     $filenames: [String!]
   ) {
-    generateBundleOfPresignedUrls(
+    presignedUrls: generateBundleOfPresignedUrls(
       fileNamesInput: {
         filenames: $filenames
       }

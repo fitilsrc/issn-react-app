@@ -6,23 +6,18 @@ import {
   ADD_PERSON_PHOTO_MUTATION,
   DELETE_FILE_OBJECTS_MUTATION,
   DELETE_MEDIA_RELATED_TO_PERSON_MUTATION,
-  GET_BUNDLE_OF_PRESIGNED_URLS_MUTATION,
   GET_PRESIGNED_UPLOAD_URLS_MUTATION,
   GET_PRESIGNED_URL_MUTATION
 } from "../graphql";
 import { useIssnContext } from "./useIssnContext";
-import { useState } from "react";
 
 export function useFileObject() {
   const { toast } = useToast();
   const { state } = useIssnContext();
 
-  const [presignedUrls, setPresignedUrls] = useState<PresignedUrlType[]>([]);
-
   const [generateUploadUrls] = useMutation(GET_PRESIGNED_UPLOAD_URLS_MUTATION);
   const [generateFileUrlMutation] = useMutation(GET_PRESIGNED_URL_MUTATION);
   const [addPersonPhotoMutation] = useMutation(ADD_PERSON_PHOTO_MUTATION);
-  const [generateBundleOfPresignedUrlsMutation] = useMutation(GET_BUNDLE_OF_PRESIGNED_URLS_MUTATION);
   const [deleteFileObjectsMutation] = useMutation(DELETE_FILE_OBJECTS_MUTATION);
   const [deleteMediaRelatedToPersonMutation] = useMutation(DELETE_MEDIA_RELATED_TO_PERSON_MUTATION);
   const [addBundleMediaToPersonMutation] = useMutation(ADD_BUNDLE_MEDIA_TO_PERSON_MUTATION);
@@ -135,27 +130,11 @@ export function useFileObject() {
     return presignedUrls;
   }
 
-  /**
-   * Generate bundle of presigned urls
-   * @param files
-   */
-  const getBundleOfPresignedUrls = async (files: FileType[]) => {
-    const filenames = files.map(file => file.filename);
-    await generateBundleOfPresignedUrlsMutation({
-      variables: {
-        filenames
-      },
-      onCompleted: data => setPresignedUrls(data.generateBundleOfPresignedUrls)
-    })
-  }
-
   return {
     uploadFile,
     deleteFileObjects,
     deleteMediaRelatedToPerson,
     addPersonPhoto,
     addBundleMediaToPerson,
-    getBundleOfPresignedUrls,
-    presignedUrls
   }
 }

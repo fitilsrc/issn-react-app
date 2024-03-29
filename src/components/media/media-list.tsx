@@ -1,10 +1,10 @@
 import { FileType } from "@/lib/types";
 import { useFileObject } from "@/lib/hooks/useFileObject";
-import { useEffect } from "react";
 import { MediaCard } from "./media-card";
 import { CarouselItem } from "../ui/carousel";
 import { AspectRatio } from "../ui/aspect-ratio";
 import { DeleteDialog } from "../delete-dialog";
+import { useGetBundleOfPresignedUrls } from "@/lib/hooks";
 
 type MediaListProps = {
   media: FileType[];
@@ -13,24 +13,23 @@ type MediaListProps = {
 
 export const MediaList = ({ media, onPersonUpdate}: MediaListProps) => {
   const {
-    getBundleOfPresignedUrls,
-    presignedUrls,
     deleteFileObjects,
     deleteMediaRelatedToPerson
   } = useFileObject();
 
-  useEffect(() => {
-    getBundleOfPresignedUrls(media);
-  }, [media]);
+  const { data, error, loading } = useGetBundleOfPresignedUrls(media);
 
-  const handleConfirm = (index: number) => () => {
-    const filenames = [presignedUrls[index]?.filename];
+  const handleConfirm = (index: number) => {
+    const filenames = [data.presignedUrls[index]?.filename];
     const mediaId = media[index]?.id;
 
     deleteFileObjects(filenames, "photo");
     mediaId && deleteMediaRelatedToPerson(mediaId);
     onPersonUpdate?.();
   };
+
+  if (loading) return 'Loading...';
+  if (error) return `Error! ${error.message}`;
 
   return (
     <>
@@ -41,8 +40,8 @@ export const MediaList = ({ media, onPersonUpdate}: MediaListProps) => {
               ratio={3 / 4}
               className="bg-muted flex justify-center items-center overflow-hidden relative w-full"
             >
-              <MediaCard file={item} url={presignedUrls[index]?.url}/>
-              <DeleteDialog onConfirmHandle={handleConfirm(index)} />
+              <MediaCard file={item} url={data.presignedUrls[index]?.url}/>
+              <DeleteDialog onConfirmHandle={() => handleConfirm(index)} />
             </AspectRatio>
           </CarouselItem>
         )

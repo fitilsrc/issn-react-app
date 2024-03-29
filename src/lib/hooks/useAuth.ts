@@ -26,8 +26,8 @@ export function useAuth() {
   const { dispatch } = useIssnContext()
   const navigate = useNavigate();
   const [login] = useMutation(SIGNIN_MUTATION);
-  const [logout] = useMutation(SIGNOUT_MUTATION);
-  const [refresh] = useMutation(REFRESH_TOKENS_MUTATION);
+  const [logout, { client }] = useMutation(SIGNOUT_MUTATION);
+  const [refreshMutation] = useMutation(REFRESH_TOKENS_MUTATION);
 
   const weekday = [t("sunday"), t("monday"), t("tuesday"), t("wednesday"), t("thursday"), t("friday"), t("saturday")]
 
@@ -53,31 +53,29 @@ export function useAuth() {
    * Gets tokens from local storage and validate
    * @returns UserType | undefined
    */
-  const validateToken = (): boolean => {
+  const validateToken = async (): Promise<void> => {
     const session = secureLocalStorage.getItem('session') as TokensType;
-    if (!session) return false;
+    if (!session) return;
     const { exp: expAccesss } = jwtDecode<JwtPayloadType>(session.access_token);
     const { exp: expRefresh } = jwtDecode<JwtPayloadType>(session.refresh_token);
     if (Date.now() >= expRefresh * 1000) {
       secureLocalStorage.clear();
-      return false;
+      return;
     };
     if (Date.now() >= expAccesss * 1000) {
-      refresh({
+      secureLocalStorage.clear();
+      await refreshMutation({
         variables: {
           refresh_token: session.refresh_token
         },
         onCompleted: (data) => {
           if (!data.refreshUserTokens.error) {
-            secureLocalStorage.clear();
             updateUserInfo(data.refreshUserTokens);
             secureLocalStorage.setItem("session", data.refreshUserTokens);
           }
         }
       })
     };
-
-    return true;
   }
 
   /**
@@ -125,6 +123,7 @@ export function useAuth() {
           dispatch({
             type: IssnActionType.REMOVE_USER,
           });
+          client.resetStore();
         }
         toast({
           variant: "default",

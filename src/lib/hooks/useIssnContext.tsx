@@ -49,8 +49,10 @@ export function useIssnContext() {
 export function IssnProvider({ children }: PropsWithChildren) {
   const { validateToken, userInfo } = useAuth();
 
-  const isLoggedIn = validateToken();
+  validateToken();
+
   const user = userInfo();
+  const isLoggedIn = !!user;
 
   const initial = {
     isLoggedIn,
