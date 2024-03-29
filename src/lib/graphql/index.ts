@@ -14,7 +14,6 @@ export * from './update-person-mutation';
 export * from './delete-pseudonym-mutation';
 export * from './delete-alias-mutation';
 export * from './get-presigned-upload-urls-mutation';
-export * from './get-presigned-url-mutation';
 export * from './add-photo-mutation';
 export * from './get-bundle-of-presigned-urls-query';
 export * from './delete-file-objects-mutation';
