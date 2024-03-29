@@ -51,8 +51,8 @@ export const FileUploadDialog = ({
   async function onSubmit(data: z.infer<typeof formSchema>) {
     const uploadedFiles = await uploadFile(data.files);
     if (!personId) return;
-    const preparedFiles: FileType[] = uploadedFiles.map((file, index) => ({
-      filename: file.filename,
+    const preparedFiles: FileType[] = uploadedFiles.map((filename, index) => ({
+      filename: filename,
       bucket: "photo",
       mime: data.files[index].type,
       personId: parseInt(personId)
@@ -61,6 +61,11 @@ export const FileUploadDialog = ({
 
     onPersonUpdate?.();
     form.reset();
+  }
+
+  async function handleOnChange(files: FileList | null) {
+    // to do make uploaded file widget before submit handled
+    console.log('[log] file on change', files)
   }
 
   return (
@@ -94,6 +99,7 @@ export const FileUploadDialog = ({
                         className={cn(
                           "inline-block leading-7 hover:cursor-pointer file:hidden pl-10"
                         )}
+                        onChangeCapture={e => handleOnChange(e.currentTarget.files)}
                         {...fileRef}
                       />
                     </FormControl>
